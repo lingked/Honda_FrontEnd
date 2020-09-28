@@ -5,25 +5,12 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Origin",
-      "x-access-token",
-      "XSRF-TOKEN",
-    ],
-    preflightContinue: false,
-  })
-);
+app.use(cors());
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + "/dist/HondaFront"));
