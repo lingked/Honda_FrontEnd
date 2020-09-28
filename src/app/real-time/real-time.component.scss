@@ -1,0 +1,59 @@
+.chartBlock {
+  width: 40%;
+  margin: 2rem 5% 1rem 5%;
+}
+
+.board {
+  width: 100%;
+  margin: 1rem 0;
+  background-color: hsla(249, 97%, 37%, 0.12);
+}
+
+.pie {
+  margin: 0.5rem 0;
+  width: 95%;
+  background-color: hsla(249, 97%, 37%, 0.12);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.appendix {
+  width: 100%;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+
+  &__left {
+    flex-direction: column;
+    width: 57%;
+    margin: 0 auto;
+  }
+
+  &__right {
+    flex-direction: column;
+    width: 37%;
+    margin: 0 3.5rem;
+  }
+}
+
+.settings {
+  margin: 0.5rem 0;
+  width: 95%;
+
+  &__item {
+    margin-bottom: 3px;
+  }
+}
+
+.btn {
+  width: 60%;
+  height: 2rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

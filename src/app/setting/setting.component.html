@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="settings">
+    <div class="settings__item">
+      <input
+        type="number"
+        step=".01"
+        [(ngModel)]="settings.max"
+        [value]="settings.max"
+        name="max"
+      />
+      max
+    </div>
+    <div class="settings__item">
+      <input
+        type="number"
+        step=".01"
+        [(ngModel)]="settings.min"
+        [value]="settings.min"
+        name="min"
+      />
+      min
+    </div>
+    <div class="settings__item">
+      <input
+        type="number"
+        step=".01"
+        [(ngModel)]="settings.upperBound"
+        [value]="settings.upperBound"
+        name="upper-bound"
+      />
+      upper-bound
+    </div>
+    <div class="settings__item">
+      <input
+        type="number"
+        step=".01"
+        [(ngModel)]="settings.lowerBound"
+        [value]="settings.lowerBound"
+        name="lower-bound"
+      />
+      lower-bound
+    </div>
+    <div class="settings__item">
+      <input
+        type="number"
+        step="1"
+        min="10"
+        max="40"
+        [(ngModel)]="settings.numOfPoints"
+        [value]="settings.numOfPoints"
+        name="points number"
+      />
+      points number
+    </div>
+  </div>
+</div>

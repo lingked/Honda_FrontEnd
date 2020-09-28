@@ -1,0 +1,153 @@
+<div class="container">
+  <div class="row">
+    <div class="chartBlock">
+      <div class="board" style="display: block">
+        <canvas
+          baseChart
+          [datasets]="FrontLeftDrip"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [colors]="colors"
+        >
+        </canvas>
+      </div>
+      <div class="appendix">
+        <div class="appendix__left">
+          <label
+            >Show error rate: <input type="checkbox" (click)="onChangeFLD_er()"
+          /></label>
+
+          <div class="pie" *ngIf="FLD_checked_er" style="display: block">
+            <canvas
+              baseChart
+              [data]="FLDPie"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              [colors]="pidChartColors"
+            ></canvas>
+          </div>
+        </div>
+        <div class="appendix__right">
+          <div>
+            <label
+              >Settings: <input type="checkbox" (click)="onChangeFLD_st()"
+            /></label>
+          </div>
+          <div class="settings" *ngIf="FLD_checked_st">
+            <div class="settings__item">Max: {{ settings.max }}</div>
+            <div class="settings__item">Min: {{ settings.min }}</div>
+            <div class="settings__item">
+              Upper-bound: {{ settings.upperBound }}
+            </div>
+            <div class="settings__item">
+              Lower-bound: {{ settings.lowerBound }}
+            </div>
+            <div class="settings__item">
+              Points number: {{ settings.numOfPoints }}
+            </div>
+
+            <div>
+              <button class="btn" (click)="navToSettings()">
+                Change settings
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chartBlock">
+      <div class="board" style="display: block">
+        <canvas
+          baseChart
+          [datasets]="FrontRightDrip"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [colors]="colors"
+        >
+        </canvas>
+      </div>
+      <div class="appendix">
+        <label
+          >Show error rate: <input type="checkbox" (click)="onChangeState()"
+        /></label>
+
+        <div class="pie" *ngIf="checked" style="display: block">
+          <canvas
+            baseChart
+            [data]="FRDPie"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [colors]="pidChartColors"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="chartBlock">
+      <div class="board" style="display: block">
+        <canvas
+          baseChart
+          [datasets]="RearLeftDrip"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [colors]="colors"
+        >
+        </canvas>
+      </div>
+      <div class="appendix">
+        <label
+          >Show error rate: <input type="checkbox" (click)="onChangeState()"
+        /></label>
+
+        <div class="pie" *ngIf="checked" style="display: block">
+          <canvas
+            baseChart
+            [data]="RLDPie"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [colors]="pidChartColors"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chartBlock">
+      <div class="board" style="display: block">
+        <canvas
+          baseChart
+          [datasets]="RearRightDrip"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [colors]="colors"
+        >
+        </canvas>
+      </div>
+      <div class="appendix">
+        <label
+          >Show error rate: <input type="checkbox" (click)="onChangeState()"
+        /></label>
+
+        <div class="pie" *ngIf="checked" style="display: block">
+          <canvas
+            baseChart
+            [data]="RRDPie"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [colors]="pidChartColors"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
