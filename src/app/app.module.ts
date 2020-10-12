@@ -12,6 +12,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { SettingComponent } from './setting/setting.component';
 
 import { SettingService } from './service/SettingService';
+import { RealTimeChartComponent } from './real-time/real-time-chart/real-time-chart.component';
+import { RealTimeItemComponent } from './real-time/real-time-chart/real-time-item/real-time-item.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SettingService } from './service/SettingService';
     ShortTermComponent,
     NotFoundPageComponent,
     SettingComponent,
+    RealTimeChartComponent,
+    RealTimeItemComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ChartsModule, FormsModule],
   providers: [SettingService],

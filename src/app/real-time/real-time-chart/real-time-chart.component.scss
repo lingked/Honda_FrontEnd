@@ -1,0 +1,20 @@
+.chartContainer {
+  width: 25%;
+  margin: 0;
+
+  &-lg {
+    width: 40%;
+    margin: 0 5%;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+
+  &-captain {
+    text-align: center;
+    font-size: 1.7rem;
+    margin: 0.97rem;
+  }
+}

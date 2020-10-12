@@ -21,6 +21,7 @@ export class RealTimeComponent implements OnInit {
   // };
 
   public lineChartOptions: Object;
+  public lineChartOptionsV:Object;
   // public barChartLabels = [];
 
   public lineChartLabels = [];
@@ -30,7 +31,8 @@ export class RealTimeComponent implements OnInit {
   public lineChartType = 'line';
   public barChartLegend = true;
   public lineChartLegend = true;
-  public data = { FLD: [], FRD: [], RLD: [], RRD: [] };
+  public data = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
+  public dataArray = [];
   public outBoundData = [];
 
   public lineChartData = [{ data: this.data, label: 'Series A' }];
@@ -59,7 +61,7 @@ export class RealTimeComponent implements OnInit {
     },
   ];
 
-  public pidChartColors = [
+  public pieChartColors = [
     {
       backgroundColor: ['blue', 'red'],
     },
@@ -82,7 +84,9 @@ export class RealTimeComponent implements OnInit {
   constructor(settingService: SettingService, private router: Router) {
     this.settings = settingService.settings;
 
-    console.log(Math.ceil((this.settings.max - this.settings.min) / 0.1));
+    console.log(
+      Math.ceil((this.settings.dripMax - this.settings.dripMax) / 0.1)
+    );
 
     this.NumOfPoints = this.settings.numOfPoints;
     for (let i = 0; i < this.settings.numOfPoints; i++) {
@@ -91,7 +95,17 @@ export class RealTimeComponent implements OnInit {
       this.data.FRD.push(0);
       this.data.RLD.push(0);
       this.data.RRD.push(0);
+      this.data.FSY.push(0);
+      this.data.RSY.push(0);
+      this.data.BF.push(0);
+      this.data.BR.push(0);
+      this.data.RPLFR.push(0);
+      this.data.RPLRE.push(0);
     }
+
+    // Object.keys((this.data) => {
+    //   this.dataArray.push(data[])
+    // });
   }
 
   onChangeState = () => {
@@ -140,8 +154,53 @@ export class RealTimeComponent implements OnInit {
             ticks: {
               steps: 10,
               stepValue: 0.1,
-              max: this.settings.max,
-              min: this.settings.min,
+              max: this.settings.dripMax,
+              min: this.settings.dripMin,
+            },
+          },
+        ],
+      },
+    };
+
+    this.lineChartOptionsV = {
+      backgoundColor: ['dark'],
+      responsive: true,
+      animation: false,
+      elements: {
+        line: {
+          tension: 0,
+          fill: false,
+          borderWidth: 1,
+          color: 'blue',
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            display: true,
+            ticks: {
+              autoSkip: false,
+              // maxRotation: 90,
+              // minRotation: 90,
+              steps: 10,
+              stepValue: 0.1,
+              max: this.settings.dripSymMax,
+              min: this.settings.dripSymMin,
+            },
+
+          },
+        ],
+        xAxes: [
+          {
+            display: true,
+            ticks: {
+              autoSkip: false,
+              // maxRotation: 90,
+              // minRotation: 90,
+              type: 'time',
+              time: {
+                unit: 'minute',
+              },
             },
           },
         ],
@@ -156,8 +215,14 @@ export class RealTimeComponent implements OnInit {
         this.data.FRD.push(data.drip_FR);
         this.data.RLD.push(data.drip_RL);
         this.data.RRD.push(data.drip_RR);
-        const upperBound = this.settings.upperBound;
-        const lowerBound = this.settings.lowerBound;
+        this.data.FSY.push((data.drip_FL-data.drip_FR).toFixed(3));
+        this.data.RSY.push((data.drip_RL-data.drip_RR).toFixed(3));
+        this.data.BF.push(data.b_FRONT);
+        this.data.BR.push(data.b_REAL);
+        this.data.RPLFR.push(data.b_FL-data.b_FR);
+        this.data.RPLRE.push(data.b_RL-data.b_RR);
+        const upperBound = this.settings.dripUpperBound;
+        const lowerBound = this.settings.dripLowerBound;
         if (data.drip_FL > upperBound || data.drip_FL < lowerBound) {
           this.count_FLD++;
         }
@@ -188,6 +253,13 @@ export class RealTimeComponent implements OnInit {
           this.data.FRD.shift();
           this.data.RLD.shift();
           this.data.RRD.shift();
+          this.data.FSY.shift();
+          this.data.RSY.shift();
+          this.data.BF.shift();
+          this.data.BR.shift();
+          this.data.RPLFR.shift();
+          this.data.RPLRE.shift();
+
           this.lineChartLabels.shift();
         }
 

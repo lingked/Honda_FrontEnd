@@ -1,0 +1,59 @@
+<div class="chartBlock">
+  <div class="board" style="display: block">
+    <canvas
+      baseChart
+      [datasets]="itemData"
+      [labels]="labels"
+      [options]="lineChartOptions"
+      [legend]="lineChartLegend"
+      [chartType]="lineChartType"
+      [colors]="colors"
+      [plugins]="lineChartPlugins"
+    >
+    </canvas>
+  </div>
+  <div class="appendix">
+    <div class="appendix__left">
+      <label
+        >Show error rate: <input type="checkbox" (click)="onChangePieState()"
+      /></label>
+
+      <div class="pie" *ngIf="pieChecked" style="display: block">
+        <canvas
+          baseChart
+          [data]="pieData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          [colors]="pieChartColors"
+        ></canvas>
+      </div>
+    </div>
+
+    <div class="appendix__right">
+      <div>
+        <label
+          >Settings: <input type="checkbox" (click)="onChangeSettingState()"
+        /></label>
+      </div>
+      <div class="settings" *ngIf="settingState">
+        <div class="settings__item">Max: {{ 0 }}</div>
+        <div class="settings__item">Min: {{ 0 }}</div>
+        <div class="settings__item">
+          Upper-bound: {{ 0 }}
+        </div>
+        <div class="settings__item">
+          Lower-bound: {{ 0 }}
+        </div>
+        <div class="settings__item">
+          Points number: {{ 0 }}
+        </div>
+
+        <div>
+          <button class="btn" >
+            Change settings
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

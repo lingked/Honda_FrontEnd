@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <!-- <div class="row">
     <div class="chartBlock">
       <div class="board" style="display: block">
         <canvas
@@ -149,5 +149,20 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <app-real-time-chart
+    [data]="data"
+    [labels]="lineChartLabels"
+    [lineChartOptions]="lineChartOptions"
+    [lineChartOptionsV]="lineChartOptionsV"
+    [lineChartType]="lineChartType"
+    [colors]="colors"
+    [lineChartLegend]="lineChartLegend"
+    [pieData]="FLDPie"
+    [pieChartLabels]="pieChartLabels"
+    [pieChartType]="pieChartType"
+    [pieChartColors]="pieChartColors"
+    [checked]="checked"
+  ></app-real-time-chart>
 </div>
+

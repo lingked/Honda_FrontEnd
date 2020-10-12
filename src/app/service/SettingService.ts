@@ -5,4 +5,12 @@ export class SettingService {
   constructor() {
     this.settings = new Settings();
   }
+
+  public getSettings() {
+    if (this.settings) {
+      return this.settings;
+    } else {
+      return null;
+    }
+  }
 }

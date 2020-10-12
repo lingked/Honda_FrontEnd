@@ -1,0 +1,67 @@
+<div class='row-captain'>DRIP</div>
+<div class="row">
+  <app-real-time-item class="chartContainer"
+    *ngFor="let ItemData of dripData; index as i"
+    [itemData]="ItemData"
+    [labels]="labels"
+    [lineChartOptions]="lineChartOptionsDripList[i]"
+    [lineChartType]="lineChartType"
+    [colors]="colors"
+    [lineChartLegend]="lineChartLegend"
+    [pieData]="pieData"
+    [pieChartLabels]="pieChartLabels"
+    [pieChartType]="pieChartType"
+    [pieChartColors]="pieChartColors"
+  ></app-real-time-item>
+</div>
+
+<div class='row-captain'>DRIP SYMMETRY</div>
+<div class="row">
+  <app-real-time-item class="chartContainer-lg"
+  *ngFor="let ItemData of dripSymData; index as i"
+  [itemData]="ItemData"
+  [labels]="labels"
+  [lineChartOptions]="lineChartSymDripList[i]"
+  [lineChartType]="lineChartType"
+  [colors]="colors"
+  [lineChartLegend]="lineChartLegend"
+  [pieData]="pieData"
+  [pieChartLabels]="pieChartLabels"
+  [pieChartType]="pieChartType"
+  [pieChartColors]="pieChartColors"
+></app-real-time-item>
+</div>
+
+<div class='row-captain'>B-PITCH</div>
+<div class="row">
+  <app-real-time-item class="chartContainer-lg"
+  *ngFor="let ItemData of bPitch; index as i"
+  [itemData]="ItemData"
+  [labels]="labels"
+  [lineChartOptions]="lineChartBPList[i]"
+  [lineChartType]="lineChartType"
+  [colors]="colors"
+  [lineChartLegend]="lineChartLegend"
+  [pieData]="pieData"
+  [pieChartLabels]="pieChartLabels"
+  [pieChartType]="pieChartType"
+  [pieChartColors]="pieChartColors"
+></app-real-time-item>
+</div>
+
+<div class='row-captain'>ROOF PICK LOCATION</div>
+<div class="row">
+  <app-real-time-item class="chartContainer-lg"
+  *ngFor="let ItemData of RPL; index as i"
+  [itemData]="ItemData"
+  [labels]="labels"
+  [lineChartOptions]="lineChartRPList[i]"
+  [lineChartType]="lineChartType"
+  [colors]="colors"
+  [lineChartLegend]="lineChartLegend"
+  [pieData]="pieData"
+  [pieChartLabels]="pieChartLabels"
+  [pieChartType]="pieChartType"
+  [pieChartColors]="pieChartColors"
+></app-real-time-item>
+</div>
