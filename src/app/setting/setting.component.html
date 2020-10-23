@@ -185,6 +185,7 @@
         /> %
       </div>
     </div>
+
     <div class="settings-container-column">
       <div class="settings-container__title">
         B-PITCH
@@ -193,17 +194,17 @@
         NOMINAL_FR = <input
           type="number"
           step=".01"
-          [(ngModel)]="settings.nominal_FR_L"
-          [value]="settings.nominal_FR_L"
+          [(ngModel)]="settings.nominal_FR_BP"
+          [value]="settings.nominal_FR_BP"
           name="max"
         /> mm
       </div>
       <div class="settings-container__item">
-        NOMINAL_FR = <input
+        NOMINAL_RE = <input
           type="number"
           step=".01"
-          [(ngModel)]="settings.nominal_FR_R"
-          [value]="settings.nominal_FR_R"
+          [(ngModel)]="settings.nominal_RE_BP"
+          [value]="settings.nominal_RE_BP"
           name="min"
         /> mm
       </div>
@@ -224,8 +225,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.dripMin"
-          [value]="settings.dripMin"
+          [(ngModel)]="settings.BPMin"
+          [value]="settings.BPMin"
           name="points number"
         /> mm
       </div>
@@ -235,8 +236,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.dripMax"
-          [value]="settings.dripMax"
+          [(ngModel)]="settings.BPMax"
+          [value]="settings.BPMax"
           name="points number"
         /> mm
       </div>
@@ -246,8 +247,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.greenPercentDrip"
-          [value]="settings.greenPercentDrip"
+          [(ngModel)]="settings.greenPercentBP"
+          [value]="settings.greenPercentBP"
           name="points number"
         /> %
       </div>
@@ -257,12 +258,13 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.redPercentDrip"
-          [value]="settings.redPercentDrip"
+          [(ngModel)]="settings.redPercentBP"
+          [value]="settings.redPercentBP"
           name="points number"
         /> %
       </div>
     </div>
+
     <div class="settings-container-column">
       <div class="settings-container__title">
         ROOF PICK LOCATION
@@ -292,8 +294,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.samplePointsDrip"
-          [value]="settings.samplePointsDrip"
+          [(ngModel)]="settings.samplePointsRP"
+          [value]="settings.samplePointsRP"
           name="points number"
         />
       </div>
@@ -325,8 +327,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.greenPercentDrip"
-          [value]="settings.greenPercentDrip"
+          [(ngModel)]="settings.greenPercentRP"
+          [value]="settings.greenPercentRP"
           name="points number"
         /> %
       </div>
@@ -336,8 +338,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.redPercentDrip"
-          [value]="settings.redPercentDrip"
+          [(ngModel)]="settings.redPercentRP"
+          [value]="settings.redPercentRP"
           name="points number"
         /> %
       </div>

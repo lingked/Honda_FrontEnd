@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import {Router } from '@angular/router';
 
 @Component({
   selector: 'app-real-time-item',
@@ -23,7 +24,9 @@ export class RealTimeItemComponent implements OnInit {
   public pieChecked: boolean = false;
   public settingState: boolean = false;
 
-  constructor() {}
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
     console.log(this.lineChartOptions);
@@ -35,5 +38,9 @@ export class RealTimeItemComponent implements OnInit {
 
   onChangeSettingState(){
     this.settingState = !this.settingState;
+  }
+
+  onSettings(){
+    this.router.navigate(['/settings']);
   }
 }

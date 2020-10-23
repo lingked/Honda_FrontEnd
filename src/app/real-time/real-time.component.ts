@@ -53,6 +53,10 @@ export class RealTimeComponent implements OnInit {
 
   public pieChartLabels = ['normal', 'outbound'];
 
+  public errors = [0,0,0,0,0,0,0,0,0,0];
+
+  public divs = [0,0,0,0,0,0,0,0,0,0];
+
   public colors = [
     {
       borderColor: 'SlateBlue',
@@ -221,20 +225,93 @@ export class RealTimeComponent implements OnInit {
         this.data.BR.push(data.b_REAL);
         this.data.RPLFR.push(data.b_FL-data.b_FR);
         this.data.RPLRE.push(data.b_RL-data.b_RR);
-        const upperBound = this.settings.dripUpperBound;
-        const lowerBound = this.settings.dripLowerBound;
-        if (data.drip_FL > upperBound || data.drip_FL < lowerBound) {
-          this.count_FLD++;
+
+        if (data.drip_FL > this.settings.dripMax || data.drip_FL < this.settings.dripMin) {
+          this.errors[0]++;
         }
-        if (data.drip_FR > upperBound) {
-          this.count_FRD++;
+        if (data.drip_FR > this.settings.dripMax || data.drip_FR < this.settings.dripMin) {
+          this.errors[1]++;
         }
-        if (data.drip_RL > upperBound) {
-          this.count_RLD++;
+        if (data.drip_RL > this.settings.dripMax || data.drip_RL < this.settings.dripMin) {
+          this.errors[2]++;
         }
-        if (data.drip_RR > upperBound) {
-          this.count_RRD++;
+        if (data.drip_RR > this.settings.dripMax || data.drip_RR < this.settings.dripMin) {
+          this.errors[3]++;
         }
+
+        if (data.drip_FL-data.drip_FR > this.settings.dripSymMax || data.drip_FL-data.drip_FR < this.settings.dripSymMin) {
+          this.errors[4]++;
+        }
+        if (data.drip_RL-data.drip_RR > this.settings.dripSymMax || data.drip_RL-data.drip_RR < this.settings.dripSymMin) {
+          this.errors[5]++;
+        }
+
+        if (data.b_FRONT > this.settings.BPMax || data.b_FRONT < this.settings.BPMin) {
+          this.errors[6]++;
+        }
+        if (data.b_REAL > this.settings.BPMax || data.b_REAL < this.settings.BPMin) {
+          this.errors[7]++;
+        }
+        if (data.data.b_FL-data.b_FR > this.settings.RPMax || data.b_FL-data.b_FR< this.settings.RPMin) {
+          this.errors[8]++;
+        }
+        if (data.data.b_RL-data.b_RR > this.settings.RPMax || data.b_RL-data.b_RR < this.settings.RPMin) {
+          this.errors[9]++;
+        }
+
+
+
+        if ((data.drip_FL <= this.settings.dripMax&&data.drip_FL>this.settings.dripMax*this.settings.greenPercentDrip/100)
+         || (data.drip_FL >= this.settings.dripMin&&data.drip_FL<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+          this.divs[0]++;
+        }
+        if ((data.drip_FR <= this.settings.dripMax&&data.drip_FR>this.settings.dripMax*this.settings.greenPercentDrip/100)
+        || (data.drip_FR >= this.settings.dripMin&&data.drip_FR<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+          this.divs[1]++;
+        }
+        if ((data.drip_RL <= this.settings.dripMax&&data.drip_RL>this.settings.dripMax*this.settings.greenPercentDrip/100)
+        || (data.drip_RL >= this.settings.dripMin&&data.drip_RL<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+          this.divs[2]++;
+        }
+        if ((data.drip_RR <= this.settings.dripMax&&data.drip_RR>this.settings.dripMax*this.settings.greenPercentDrip/100)
+        || (data.drip_RR >= this.settings.dripMin&&data.drip_RR<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+          this.divs[3]++;
+        }
+
+        if ((data.drip_FL-data.drip_FR <= this.settings.dripSymMax&&data.drip_FL-data.drip_FR>this.settings.dripSymMax*this.settings.greenPercentDrip/100)
+         || (data.drip_FL-data.drip_FR >= this.settings.dripSymMin&&data.drip_FL-data.drip_FR<this.settings.dripSymMin*this.settings.greenPercentDrip/100)) {
+          this.divs[4]++;
+        }
+        if ((data.drip_RL-data.drip_RR <= this.settings.dripSymMax&&data.drip_RL-data.drip_RR>this.settings.dripSymMax*this.settings.greenPercentDrip/100)
+        || (data.drip_RL-data.drip_RR >= this.settings.dripSymMin&&data.drip_RL-data.drip_RR<this.settings.dripSymMin*this.settings.greenPercentDrip/100)) {
+          this.divs[5]++;
+        }
+
+        if ((data.b_FRONT <= this.settings.BPMax&&data.b_FRONT >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
+         (data.b_FRONT >= this.settings.BPMin && data.b_FRONT <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
+          this.divs[6]++;
+        }
+
+        if ((data.b_REAR <= this.settings.BPMax && data.b_REAR >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
+         (data.b_REAR >= this.settings.BPMin && data.b_REAR <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
+          this.divs[7]++;
+        }
+        if ((data.data.b_FL-data.b_FR <= this.settings.RPMax&&data.data.b_FL-data.b_FR > this.settings.RPMax*this.settings.greenPercentRP)
+         || (data.data.b_FL-data.b_FR >= this.settings.RPMin&&data.data.b_FL-data.b_FR > this.settings.RPMin*this.settings.greenPercentRP)) {
+          this.divs[8]++;
+        }
+        if ((data.data.b_RL-data.b_RR <= this.settings.RPMax&&data.data.b_RL-data.b_RR > this.settings.RPMax*this.settings.greenPercentRP)
+         || (data.data.b_RL-data.b_RR >= this.settings.RPMin&&data.data.b_RL-data.b_RR > this.settings.RPMin*this.settings.greenPercentRP)) {
+          this.divs[9]++;
+        }
+        
+
+
+
+
+
+
+
         this.lineChartLabels.push(data.timestamp.substring(9));
         if (this.data.FLD.length > this.settings.numOfPoints) {
           if (this.data.FLD[0] > upperBound || data.drip_FL < lowerBound) {

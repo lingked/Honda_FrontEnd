@@ -26,8 +26,8 @@ export class Settings {
   public redPercentDripSym: number;
 
   // B-PITCH parameters
-  public nominal＿FR_BP: number;
-  public nominal＿RE_BP: number;
+  public nominal_FR_BP: number;
+  public nominal_RE_BP: number;
   public samplePointsBP: number;
   public BPMax:number;
   public BPMin: number;
@@ -55,7 +55,7 @@ export class Settings {
     // this.dripSymMax = 1.0;
 
     // drip initialization
-    this.samplePointsDrip = 50;
+    this.samplePointsDrip = 30;
     this.dripMax = .5;
     this.dripMin = -.5;
     this.nominal_FR_L=.2;
@@ -70,19 +70,24 @@ export class Settings {
     this.dripSymMax = 1;
     this.greenPercentDripSym = 80;
     this.redPercentDripSym = 20;
+    this.samplePointsSym = 30;
 
     // B-pitch
     this.BPMax = 0.5;
     this.BPMin = 0.5;
-    this.nominal＿FR_BP = 0;
-    this.nominal＿RE_BP = 0;
+    this.nominal_FR_BP = 0;
+    this.nominal_RE_BP = 0;
     this.greenPercentBP = 80;
     this.redPercentBP = 20;
+    this.samplePointsBP = 30;
 
     // RP
     this.RPMax = 0.5;
     this.RPMin = 0.5;
     this.greenPercentRP = 80;
     this.redPercentRP = 20;
+    this.samplePointsRP = 30;
+    this.nominal_FR_RP=0;
+    this.nominal_RE_RP=0;
   }
 }
