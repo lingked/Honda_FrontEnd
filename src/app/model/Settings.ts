@@ -84,10 +84,10 @@ export class Settings {
     this.samplePointsBP = 30;
 
     // RP
-    this.RPMax = 0.5;
-    this.RPMin = -0.5;
-    this.greenPercentRP = 80;
-    this.redPercentRP = 20;
+    this.RPMax = 0.4;
+    this.RPMin = -0.4;
+    this.greenPercentRP = 50;
+    this.redPercentRP = 30;
     this.samplePointsRP = 30;
     this.nominal_FR_RP=0;
     this.nominal_RE_RP=0;
