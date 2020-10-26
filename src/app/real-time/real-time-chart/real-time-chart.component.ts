@@ -1,6 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, Input } from '@angular/core';
 import { Settings } from '../../model/Settings';
+import { Setting } from '../../model/Settings';
 
 import { SettingService } from './../../service/SettingService';
 
@@ -59,7 +60,7 @@ export class RealTimeChartComponent implements OnInit {
 
   public settings: Settings;
 
-  public settingsData:[{},{},{},{}];
+  public settingsData:[Setting,Setting,Setting,Setting];
 
 
   constructor(settingService: SettingService,) {
@@ -109,7 +110,7 @@ export class RealTimeChartComponent implements OnInit {
       type: 'line',
       mode: 'horizontal',
       scaleID: 'y-axis-0',
-      value: this.settings.dripMax,
+      value: this.settings.nominal_FR_L,
       borderColor: 'black',
       borderWidth: .5,
       label:{
@@ -288,7 +289,7 @@ export class RealTimeChartComponent implements OnInit {
           type: 'line',
           mode: 'horizontal',
           scaleID: 'y-axis-0',
-          value: this.settings.dripSymMax,
+          value: this.settings.dripSymNorFR,
           borderColor: 'black',
           borderWidth: .5,
           label:{
@@ -416,7 +417,7 @@ export class RealTimeChartComponent implements OnInit {
         type: 'line',
         mode: 'horizontal',
         scaleID: 'y-axis-0',
-        value: this.settings.BPMax,
+        value: this.settings.nominal_FR_BP,
         borderColor: 'black',
         borderWidth: .5,
         label:{
@@ -543,7 +544,7 @@ export class RealTimeChartComponent implements OnInit {
       type: 'line',
       mode: 'horizontal',
       scaleID: 'y-axis-0',
-      value: this.settings.RPMax,
+      value: this.settings.nominal_FR_RP,
       borderColor: 'black',
       borderWidth: .5,
       label:{

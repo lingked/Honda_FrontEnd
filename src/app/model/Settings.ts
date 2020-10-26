@@ -58,7 +58,7 @@ export class Settings {
     this.samplePointsDrip = 30;
     this.dripMax = .5;
     this.dripMin = -.5;
-    this.nominal_FR_L=.2;
+    this.nominal_FR_L=.1;
     this.nominal_FR_R=0;
     this.nominal_RE_L=0;
     this.nominal_RE_R=0;
@@ -68,6 +68,8 @@ export class Settings {
     // drip symmetry
     this.dripSymMin = -1;
     this.dripSymMax = 1;
+    this.dripSymNorFR=0.03;
+    this.dripSymNorRE=0;
     this.greenPercentDripSym = 80;
     this.redPercentDripSym = 20;
     this.samplePointsSym = 30;
@@ -97,5 +99,5 @@ export class Setting {
   Min: Number;
   greenPercent: Number;
   redPercent: Number;
-  pointsNumber: Number;
+  pointsNum: Number;
 }

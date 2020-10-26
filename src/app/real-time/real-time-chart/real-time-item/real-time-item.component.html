@@ -36,16 +36,16 @@
         /></label>
       </div>
       <div class="settings" *ngIf="settingState">
-        <div class="settings__item">Max: {{ 0 }}</div>
-        <div class="settings__item">Min: {{ 0 }}</div>
+        <div class="settings__item">Max: {{ settingsData.Max }}</div>
+        <div class="settings__item">Min: {{ settingsData.Min }}</div>
         <div class="settings__item">
-          Green Percent: {{ 0 }}
+          Green Percent: {{ settingsData.greenPercent }}
         </div>
         <div class="settings__item">
-          Red Percent: {{ 0 }}
+          Red Percent: {{ settingsData.redPercent }}
         </div>
         <div class="settings__item">
-          Points number: {{ 0 }}
+          Points number: {{ settingsData.pointsNum }}
         </div>
 
         <div>
