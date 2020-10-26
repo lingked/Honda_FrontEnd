@@ -32,6 +32,7 @@ export class RealTimeComponent implements OnInit {
   public barChartLegend = true;
   public lineChartLegend = true;
   public data = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
+  public pieData = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
   public dataArray = [];
   public outBoundData = [];
 
@@ -41,17 +42,17 @@ export class RealTimeComponent implements OnInit {
   public RearLeftDrip = [{ data: [], label: 'REAR LEFT' }];
   public RearRightDrip = [{ data: [], label: 'REAR RIGHT' }];
 
-  public FLDPie = [0, 0];
-  public FRDPie = [0, 0];
-  public RLDPie = [0, 0];
-  public RRDPie = [0, 0];
+  public FLDPie = [0, 0, 0];
+  public FRDPie = [0, 0, 0];
+  public RLDPie = [0, 0, 0];
+  public RRDPie = [0, 0, 0];
 
   public count_FLD = 0;
   public count_FRD = 0;
   public count_RLD = 0;
   public count_RRD = 0;
 
-  public pieChartLabels = ['normal', 'outbound'];
+  public pieChartLabels = ['normal', 'outbound', 'error'];
 
   public errors = [0,0,0,0,0,0,0,0,0,0];
 
@@ -59,15 +60,15 @@ export class RealTimeComponent implements OnInit {
 
   public colors = [
     {
-      borderColor: 'SlateBlue',
-      pointBackgroundColor: 'tomato',
-      pointBorderColor: 'tomato',
+      borderColor: 'slategrey',
+      pointBackgroundColor: 'black',
+      pointBorderColor: 'dark',
     },
   ];
 
   public pieChartColors = [
     {
-      backgroundColor: ['blue', 'red'],
+      backgroundColor: ['green', 'orange', 'red'],
     },
   ];
 
@@ -88,9 +89,9 @@ export class RealTimeComponent implements OnInit {
   constructor(settingService: SettingService, private router: Router) {
     this.settings = settingService.settings;
 
-    console.log(
-      Math.ceil((this.settings.dripMax - this.settings.dripMax) / 0.1)
-    );
+    // console.log(
+    //   Math.ceil((this.settings.dripMax - this.settings.dripMax) / 0.1)
+    // );
 
     this.NumOfPoints = this.settings.numOfPoints;
     for (let i = 0; i < this.settings.numOfPoints; i++) {
@@ -106,6 +107,12 @@ export class RealTimeComponent implements OnInit {
       this.data.RPLFR.push(0);
       this.data.RPLRE.push(0);
     }
+
+    Object.keys(this.pieData).forEach((key)=>{
+      this.pieData[key]=[this.settings.numOfPoints,0,0]
+    });
+
+
 
     // Object.keys((this.data) => {
     //   this.dataArray.push(data[])
@@ -137,7 +144,8 @@ export class RealTimeComponent implements OnInit {
           tension: 0,
           fill: false,
           borderWidth: 1,
-          color: 'blue',
+          borderColor: 'red',
+          backgroundColor: 'red'
         },
       },
       scales: {
@@ -175,7 +183,7 @@ export class RealTimeComponent implements OnInit {
           tension: 0,
           fill: false,
           borderWidth: 1,
-          color: 'blue',
+          color: 'darkgray',
         },
       },
       scales: {
@@ -252,10 +260,10 @@ export class RealTimeComponent implements OnInit {
         if (data.b_REAL > this.settings.BPMax || data.b_REAL < this.settings.BPMin) {
           this.errors[7]++;
         }
-        if (data.data.b_FL-data.b_FR > this.settings.RPMax || data.b_FL-data.b_FR< this.settings.RPMin) {
+        if (data.b_FL-data.b_FR > this.settings.RPMax || data.b_FL-data.b_FR< this.settings.RPMin) {
           this.errors[8]++;
         }
-        if (data.data.b_RL-data.b_RR > this.settings.RPMax || data.b_RL-data.b_RR < this.settings.RPMin) {
+        if (data.b_RL-data.b_RR > this.settings.RPMax || data.b_RL-data.b_RR < this.settings.RPMin) {
           this.errors[9]++;
         }
 
@@ -278,12 +286,13 @@ export class RealTimeComponent implements OnInit {
           this.divs[3]++;
         }
 
-        if ((data.drip_FL-data.drip_FR <= this.settings.dripSymMax&&data.drip_FL-data.drip_FR>this.settings.dripSymMax*this.settings.greenPercentDrip/100)
-         || (data.drip_FL-data.drip_FR >= this.settings.dripSymMin&&data.drip_FL-data.drip_FR<this.settings.dripSymMin*this.settings.greenPercentDrip/100)) {
+        if ((data.drip_FL-data.drip_FR <= this.settings.dripSymMax&&data.drip_FL-data.drip_FR>this.settings.dripSymMax*this.settings.greenPercentDripSym/100)
+         || (data.drip_FL-data.drip_FR >= this.settings.dripSymMin&&data.drip_FL-data.drip_FR<this.settings.dripSymMin*this.settings.greenPercentDripSym/100)) {
           this.divs[4]++;
         }
-        if ((data.drip_RL-data.drip_RR <= this.settings.dripSymMax&&data.drip_RL-data.drip_RR>this.settings.dripSymMax*this.settings.greenPercentDrip/100)
-        || (data.drip_RL-data.drip_RR >= this.settings.dripSymMin&&data.drip_RL-data.drip_RR<this.settings.dripSymMin*this.settings.greenPercentDrip/100)) {
+
+        if ((data.drip_RL-data.drip_RR <= this.settings.dripSymMax&&data.drip_RL-data.drip_RR>this.settings.dripSymMax*this.settings.greenPercentDripSym/100)
+         || (data.drip_RL-data.drip_RR >= this.settings.dripSymMin&&data.drip_RL-data.drip_RR<this.settings.dripSymMin*this.settings.greenPercentDripSym/100)) {
           this.divs[5]++;
         }
 
@@ -292,40 +301,114 @@ export class RealTimeComponent implements OnInit {
           this.divs[6]++;
         }
 
-        if ((data.b_REAR <= this.settings.BPMax && data.b_REAR >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
-         (data.b_REAR >= this.settings.BPMin && data.b_REAR <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
+        if ((data.b_REAL <= this.settings.BPMax && data.b_REAL >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
+         (data.b_REAL >= this.settings.BPMin && data.b_REAL <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
           this.divs[7]++;
         }
-        if ((data.data.b_FL-data.b_FR <= this.settings.RPMax&&data.data.b_FL-data.b_FR > this.settings.RPMax*this.settings.greenPercentRP)
-         || (data.data.b_FL-data.b_FR >= this.settings.RPMin&&data.data.b_FL-data.b_FR > this.settings.RPMin*this.settings.greenPercentRP)) {
+
+        if ((data.b_FL-data.b_FR <= this.settings.RPMax&&data.b_FL-data.b_FR >= this.settings.RPMax*this.settings.greenPercentRP/100)
+         || (data.b_FL-data.b_FR >= this.settings.RPMin&&data.b_FL-data.b_FR <= this.settings.RPMin*this.settings.greenPercentRP/100)) {
           this.divs[8]++;
         }
-        if ((data.data.b_RL-data.b_RR <= this.settings.RPMax&&data.data.b_RL-data.b_RR > this.settings.RPMax*this.settings.greenPercentRP)
-         || (data.data.b_RL-data.b_RR >= this.settings.RPMin&&data.data.b_RL-data.b_RR > this.settings.RPMin*this.settings.greenPercentRP)) {
+
+        if ((data.b_RL-data.b_RR <= this.settings.RPMax&&data.b_RL-data.b_RR >= this.settings.RPMax*this.settings.greenPercentRP/100)
+         || (data.b_RL-data.b_RR >= this.settings.RPMin&&data.b_RL-data.b_RR <= this.settings.RPMin*this.settings.greenPercentRP/100)) {
           this.divs[9]++;
         }
-        
-
-
-
-
-
 
 
         this.lineChartLabels.push(data.timestamp.substring(9));
         if (this.data.FLD.length > this.settings.numOfPoints) {
-          if (this.data.FLD[0] > upperBound || data.drip_FL < lowerBound) {
-            this.count_FLD--;
+          // if (this.data.FLD[0] > upperBound || data.drip_FL < lowerBound) {
+          //   this.count_FLD--;
+          // }
+          // if (this.data.FRD[0] > upperBound) {
+          //   this.count_FRD--;
+          // }
+          // if (this.data.RLD[0] > upperBound) {
+          //   this.count_RLD--;
+          // }
+          // if (this.data.RRD[0] > upperBound) {
+          //   this.count_RRD--;
+          // }
+          if (this.data.FLD[0] > this.settings.dripMax || this.data.FLD[0] < this.settings.dripMin) {
+            this.errors[0]--;
           }
-          if (this.data.FRD[0] > upperBound) {
-            this.count_FRD--;
+          if (this.data.FRD[0] > this.settings.dripMax || this.data.FRD[0] < this.settings.dripMin) {
+            this.errors[1]--;
           }
-          if (this.data.RLD[0] > upperBound) {
-            this.count_RLD--;
+          if (this.data.RLD[0] > this.settings.dripMax || this.data.RLD[0] < this.settings.dripMin) {
+            this.errors[2]--;
           }
-          if (this.data.RRD[0] > upperBound) {
-            this.count_RRD--;
+          if (this.data.RRD[0] > this.settings.dripMax || this.data.RRD[0] < this.settings.dripMin) {
+            this.errors[3]--;
           }
+
+          if (this.data.FSY[0] > this.settings.dripSymMax || this.data.FSY[0] < this.settings.dripSymMin) {
+            this.errors[4]--;
+          }
+          if (this.data.RSY[0] > this.settings.dripSymMax || this.data.RSY[0] < this.settings.dripSymMin) {
+            this.errors[5]--;
+          }
+
+          if (this.data.BF[0] > this.settings.BPMax || this.data.BF[0] < this.settings.BPMin) {
+            this.errors[6]--;
+          }
+          if (this.data.BR[0] > this.settings.BPMax || this.data.BR[0] < this.settings.BPMin) {
+            this.errors[7]--;
+          }
+          if (this.data.RPLFR[0] > this.settings.RPMax || this.data.RPLFR[0]< this.settings.RPMin) {
+            this.errors[8]--;
+          }
+          if (this.data.RPLRE[0] > this.settings.RPMax || this.data.RPLRE[0] < this.settings.RPMin) {
+            this.errors[9]--;
+          }
+
+          if ((this.data.FLD[0] <= this.settings.dripMax&&this.data.FLD[0]>this.settings.dripMax*this.settings.greenPercentDrip/100)
+           || (this.data.FLD[0] >= this.settings.dripMin&&this.data.FLD[0]<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+            this.divs[0]--;
+          }
+          if ((this.data.FRD[0] <= this.settings.dripMax&&this.data.FRD[0]>this.settings.dripMax*this.settings.greenPercentDrip/100)
+          || (this.data.FRD[0] >= this.settings.dripMin&&this.data.FRD[0]<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+            this.divs[1]--;
+          }
+          if ((this.data.RLD[0] <= this.settings.dripMax&&this.data.RLD[0]>this.settings.dripMax*this.settings.greenPercentDrip/100)
+          || (this.data.RLD[0] >= this.settings.dripMin&&this.data.RLD[0]<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+            this.divs[2]--;
+          }
+          if ((this.data.RRD[0] <= this.settings.dripMax&&this.data.RRD[0]>this.settings.dripMax*this.settings.greenPercentDrip/100)
+          || (this.data.RRD[0] >= this.settings.dripMin&&this.data.RRD[0]<this.settings.dripMin*this.settings.greenPercentDrip/100)) {
+            this.divs[3]--;
+          }this.data.FSY[0]
+
+          if ((this.data.FSY[0] <= this.settings.dripSymMax&&this.data.FSY[0]>this.settings.dripSymMax*this.settings.greenPercentDripSym/100)
+           || (this.data.FSY[0] >= this.settings.dripSymMin&&this.data.FSY[0]<this.settings.dripSymMin*this.settings.greenPercentDripSym/100)) {
+            this.divs[4]--;
+          }
+          if ((this.data.RSY[0] <= this.settings.dripSymMax&&this.data.RSY[0]>this.settings.dripSymMax*this.settings.greenPercentDripSym/100)
+          || (this.data.RSY[0] >= this.settings.dripSymMin&&this.data.RSY[0]<this.settings.dripSymMin*this.settings.greenPercentDripSym/100)) {
+            this.divs[5]--;
+          }
+
+
+          if ((this.data.BF[0] <= this.settings.BPMax&&this.data.BF[0] >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
+           (this.data.BF[0] >= this.settings.BPMin && this.data.BF[0] <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
+            this.divs[6]--;
+          }
+
+          if ((this.data.BR[0] <= this.settings.BPMax && this.data.BR[0] >= this.settings.BPMax*this.settings.greenPercentBP/100) ||
+           (this.data.BR[0] >= this.settings.BPMin && this.data.BR[0] <= this.settings.BPMin*this.settings.greenPercentBP/100)) {
+            this.divs[7]--;
+          }
+          if ((this.data.RPLFR[0] <= this.settings.RPMax&&this.data.RPLFR[0] >= this.settings.RPMax*this.settings.greenPercentRP/100)
+           || (this.data.RPLFR[0] >= this.settings.RPMin&&this.data.RPLFR[0] <= this.settings.RPMin*this.settings.greenPercentRP/100)) {
+            this.divs[8]--;
+          }
+          if ((this.data.RPLRE[0] <= this.settings.RPMax&&this.data.RPLRE[0] >= this.settings.RPMax*this.settings.greenPercentRP/100)
+           || (this.data.RPLRE[0] >= this.settings.RPMin&&this.data.RPLRE[0] <= this.settings.RPMin*this.settings.greenPercentRP/100)) {
+            this.divs[9]--;
+          }
+
           this.data.FLD.shift();
           this.data.FRD.shift();
           this.data.RLD.shift();
@@ -341,13 +424,23 @@ export class RealTimeComponent implements OnInit {
         }
 
         this.FrontLeftDrip = [{ data: this.data.FLD, label: 'FRONT LEFT' }];
-        this.FrontRightDrip = [{ data: this.data.FRD, label: 'FRONT RIGHT' }];
-        this.RearLeftDrip = [{ data: this.data.RLD, label: 'REAR LEFT' }];
-        this.RearRightDrip = [{ data: this.data.RRD, label: 'REAR RIGHT' }];
-        this.FLDPie = [this.NumOfPoints - this.count_FLD, this.count_FLD];
-        this.FRDPie = [this.NumOfPoints - this.count_FRD, this.count_FRD];
-        this.RLDPie = [this.NumOfPoints - this.count_RLD, this.count_RLD];
-        this.RRDPie = [this.NumOfPoints - this.count_RRD, this.count_RRD];
+        // this.FrontRightDrip = [{ data: this.data.FRD, label: 'FRONT RIGHT' }];
+        // this.RearLeftDrip = [{ data: this.data.RLD, label: 'REAR LEFT' }];
+        // this.RearRightDrip = [{ data: this.data.RRD, label: 'REAR RIGHT' }];
+        // this.FLDPie = [this.NumOfPoints - this.errors[0] - this.divs[0], this.divs[0], this.errors[0]];
+        // this.FRDPie = [this.NumOfPoints - this.count_FRD, this.count_FRD];
+        // this.RLDPie = [this.NumOfPoints - this.count_RLD, this.count_RLD];
+        // this.RRDPie = [this.NumOfPoints - this.count_RRD, this.count_RRD];
+
+        const keys = Object.keys(this.pieData);
+
+        for(let i=0; i<keys.length; i++){
+          this.pieData[keys[i]] = [this.NumOfPoints-this.errors[i]-this.divs[i], this.divs[i], this.errors[i]];
+        }
+
+        // console.log(this.pieData[keys[5]]);
+        // console.log(this.pieData[keys[6]]);
+
       }
     );
   }

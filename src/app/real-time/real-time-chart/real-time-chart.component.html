@@ -8,10 +8,11 @@
     [lineChartType]="lineChartType"
     [colors]="colors"
     [lineChartLegend]="lineChartLegend"
-    [pieData]="pieData"
+    [pieData]="pieData[keys[i]]"
     [pieChartLabels]="pieChartLabels"
     [pieChartType]="pieChartType"
     [pieChartColors]="pieChartColors"
+    [settingsData]="settingsData[0]"
   ></app-real-time-item>
 </div>
 
@@ -25,10 +26,11 @@
   [lineChartType]="lineChartType"
   [colors]="colors"
   [lineChartLegend]="lineChartLegend"
-  [pieData]="pieData"
+  [pieData]="pieData[keys[i+4]]"
   [pieChartLabels]="pieChartLabels"
   [pieChartType]="pieChartType"
   [pieChartColors]="pieChartColors"
+  [settingsData]="settingsData[1]"
 ></app-real-time-item>
 </div>
 
@@ -42,10 +44,11 @@
   [lineChartType]="lineChartType"
   [colors]="colors"
   [lineChartLegend]="lineChartLegend"
-  [pieData]="pieData"
+  [pieData]="pieData[keys[i+6]]"
   [pieChartLabels]="pieChartLabels"
   [pieChartType]="pieChartType"
   [pieChartColors]="pieChartColors"
+  [settingsData]="settingsData[2]"
 ></app-real-time-item>
 </div>
 
@@ -59,9 +62,10 @@
   [lineChartType]="lineChartType"
   [colors]="colors"
   [lineChartLegend]="lineChartLegend"
-  [pieData]="pieData"
+  [pieData]="pieData[keys[i+8]]"
   [pieChartLabels]="pieChartLabels"
   [pieChartType]="pieChartType"
   [pieChartColors]="pieChartColors"
+  [settingsData]="settingsData[3]"
 ></app-real-time-item>
 </div>

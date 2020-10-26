@@ -74,7 +74,7 @@ export class Settings {
 
     // B-pitch
     this.BPMax = 0.5;
-    this.BPMin = 0.5;
+    this.BPMin = -0.5;
     this.nominal_FR_BP = 0;
     this.nominal_RE_BP = 0;
     this.greenPercentBP = 80;
@@ -83,11 +83,19 @@ export class Settings {
 
     // RP
     this.RPMax = 0.5;
-    this.RPMin = 0.5;
+    this.RPMin = -0.5;
     this.greenPercentRP = 80;
     this.redPercentRP = 20;
     this.samplePointsRP = 30;
     this.nominal_FR_RP=0;
     this.nominal_RE_RP=0;
   }
+}
+
+export class Setting {
+  Max: Number;
+  Min: Number;
+  greenPercent: Number;
+  redPercent: Number;
+  pointsNumber: Number;
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 import {Router } from '@angular/router';
 
+import {Setting} from '../../../model/Settings';
+
 @Component({
   selector: 'app-real-time-item',
   templateUrl: './real-time-item.component.html',
@@ -19,6 +21,7 @@ export class RealTimeItemComponent implements OnInit {
   @Input() pieChartLabels: [];
   @Input() pieChartType: String;
   @Input() pieChartColors: [];
+  @Input() settingsData: Setting;
 
   public lineChartPlugins = [pluginAnnotations];
   public pieChecked: boolean = false;
