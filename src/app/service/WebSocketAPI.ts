@@ -5,9 +5,9 @@ import { AppComponent } from '../app.component';
 
 export class WebSocketAPI {
   // WebSocketEndPoint: string = 'http://localhost:8080/realTimeAPI';
-  WebSocketEndPoint: string = 'http://3.22.61.171:8080/realTimeAPI';
-  // WebSocketEndPoint: string =
-  //   'https://honda-api-demo.herokuapp.com/realTimeAPI';
+  // WebSocketEndPoint: string = 'http://3.22.61.171:8080/realTimeAPI';
+  WebSocketEndPoint: string =
+    'https://honda-api-demo.herokuapp.com/realTimeAPI';
   topic: string = '/dataListener';
   stompClient: any;
   appComponent: AppComponent;
