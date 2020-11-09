@@ -1,1 +1,80 @@
-<p>short-term works!</p>
+
+
+
+
+<div class="list">
+  <br>
+  <h2>Generate Custom Charts for Measurements</h2>
+  <br>
+  <ul>
+      <li>Start Date: <input class="timeinput" [(ngModel)]="startDate" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+          <owl-date-time #dt1></owl-date-time>
+
+      </li>
+      <li>  End Date:    <input class="timeinput2" [(ngModel)]="endDate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
+          <owl-date-time #dt2></owl-date-time>
+
+      <!-- </li>
+      Charts Type:
+          <li *ngFor="let drip of Info.drip; let key=index">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" [id]="'dripcheck'+key" [(ngModel)]="drip.checked"><label [for]="'dripcheck'+key"> {{drip.title}}: {{drip.exp}}  </label>
+              &nbsp;&nbsp;
+          </li>
+
+
+      <li *ngFor="let dripsym of Info.dripsymmatry; let key=index">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <input type="checkbox" [id]="'check'+key" [(ngModel)]="dripsym.checked"><label [for]="'check'+key">{{dripsym.title}}: {{dripsym.exp}}  </label>
+              &nbsp;&nbsp;
+
+
+      </li>
+      <li *ngFor="let bp of Info.bpitch; let key=index">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <input type="checkbox" [id]="'bpcheck'+key" [(ngModel)]="bp.checked"><label [for]="'bpcheck'+key">{{bp.title}}: {{bp.exp}}  </label>
+              &nbsp;&nbsp;
+
+
+      </li>
+      <li *ngFor="let rpl of Info.roofpicklocation; let key=index">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <input type="checkbox" [id]="'rplcheck'+key" [(ngModel)]="rpl.checked"><label [for]="'rplcheck'+key">{{rpl.title}}: {{rpl.exp}}  </label>
+              &nbsp;&nbsp;
+
+
+      </li> -->
+  </ul>
+  <br>
+<!-- <button (click)=gostcharts()>Generate the charts</button> -->
+
+
+  <!-- <pre>
+      {{Info |json}}
+  </pre> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<br>
+<a class="nav-link" routerLink="/stcharts">Go to stcharts</a>
+-->
+
+
+
+
+
+

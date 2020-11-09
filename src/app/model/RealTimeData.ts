@@ -1,5 +1,6 @@
 import { SettingComponent } from './../setting/setting.component';
 import { SettingService } from './../service/SettingService';
+import axios from 'axios';
 
 export class RealTimeData {
   public numOfParam = 10;
@@ -31,17 +32,23 @@ export class RealTimeData {
   };
   constructor(settingService: SettingService) {
     this.numOfPoints = settingService.getSettings().numOfPoints;
-    for (let i = 0; i < this.numOfPoints; i++) {
-      this.time.push(0);
-      Object.keys(this.data).forEach((key) => {
-        this.data[key].push(0);
-      });
-    }
-    for (let i = 0; i < this.numOfParam; i++) {
-      Object.keys(this.errs).forEach((key) => {
-        this.errs[key] = 0;
-      });
-    }
+
+    // axios.get(`localhost:8080/initialData`, {params: {num: this.numOfPoints}}).then(res=>{
+    //   if(res.status==200){
+    //     console.log(res.data);
+    //   }
+    // });
+    // for (let i = 0; i < this.numOfPoints; i++) {
+    //   this.time.push(0);
+    //   Object.keys(this.data).forEach((key) => {
+    //     this.data[key].push(0);
+    //   });
+    // }
+    // for (let i = 0; i < this.numOfParam; i++) {
+    //   Object.keys(this.errs).forEach((key) => {
+    //     this.errs[key] = 0;
+    //   });
+    // }
   }
 
   public getData() {

@@ -15,6 +15,8 @@ import { SettingService } from './service/SettingService';
 import { RealTimeChartComponent } from './real-time/real-time-chart/real-time-chart.component';
 import { RealTimeItemComponent } from './real-time/real-time-chart/real-time-item/real-time-item.component';
 
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,8 @@ import { RealTimeItemComponent } from './real-time/real-time-chart/real-time-ite
     RealTimeChartComponent,
     RealTimeItemComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ChartsModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, ChartsModule, FormsModule, OwlDateTimeModule,
+    OwlNativeDateTimeModule],
   providers: [SettingService],
   bootstrap: [AppComponent],
 })

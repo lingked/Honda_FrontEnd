@@ -8,5 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class ShortTermComponent implements OnInit {
   constructor() {}
 
+
+  startDate;
+  endDate;
   ngOnInit(): void {}
 }
