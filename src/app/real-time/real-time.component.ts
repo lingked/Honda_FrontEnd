@@ -95,7 +95,7 @@ export class RealTimeComponent implements OnInit {
     // );
 
     this.NumOfPoints = this.settings.numOfPoints;
-    axios.get(`http://localhost:8080/initialData`, {params: {num: this.NumOfPoints}
+    axios.get(`https://honda-api-demo.herokuapp.com/initialData`, {params: {num: this.NumOfPoints}
     }, ).then(res=>{
       if(res.status==200){
         res.data.forEach(item=>{
