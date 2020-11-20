@@ -1,7 +1,3 @@
-
-
-
-
 <div class="list">
   <br>
   <h2>Generate Custom Charts for Measurements</h2>
@@ -11,10 +7,10 @@
           <owl-date-time #dt1></owl-date-time>
 
       </li>
-      <li>  End Date:    <input class="timeinput2" [(ngModel)]="endDate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
+      <li>End Date: <input class="timeinput2" [(ngModel)]="endDate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
           <owl-date-time #dt2></owl-date-time>
 
-      <!-- </li>
+      </li>
       Charts Type:
           <li *ngFor="let drip of Info.drip; let key=index">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,32 +42,16 @@
               &nbsp;&nbsp;
 
 
-      </li> -->
+      </li>
   </ul>
   <br>
-<!-- <button (click)=gostcharts()>Generate the charts</button> -->
+<button (click)=gostcharts()>Generate the charts</button>
 
 
   <!-- <pre>
       {{Info |json}}
   </pre> -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-<br>
-<a class="nav-link" routerLink="/stcharts">Go to stcharts</a>
--->
 
 
 

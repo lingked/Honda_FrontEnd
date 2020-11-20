@@ -1,0 +1,28 @@
+h2 {
+  text-align: center;
+}
+
+.list {
+  width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #eee;
+
+  li {
+    height: 50px;
+
+    line-height: 50px;
+    .timeinput {
+      width: 200px;
+      height: 25px;
+    }
+    .timeinput2 {
+      width: 200px;
+      height: 25px;
+      margin-left: 8px;
+    }
+  }
+  button {
+    margin-left: 200px;
+  }
+}

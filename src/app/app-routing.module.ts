@@ -1,3 +1,4 @@
+import { StChartsComponent } from './st-charts/st-charts.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { SettingComponent } from './setting/setting.component';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingComponent },
   { path: 'real-time', component: RealTimeComponent },
   { path: 'short-term', component: ShortTermComponent },
+  { path: 'stCharts', component: StChartsComponent},
 ];
 
 @NgModule({

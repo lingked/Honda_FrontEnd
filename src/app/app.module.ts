@@ -10,12 +10,14 @@ import { RealTimeComponent } from './real-time/real-time.component';
 import { ShortTermComponent } from './short-term/short-term.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { SettingComponent } from './setting/setting.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { SettingService } from './service/SettingService';
 import { RealTimeChartComponent } from './real-time/real-time-chart/real-time-chart.component';
 import { RealTimeItemComponent } from './real-time/real-time-chart/real-time-item/real-time-item.component';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { StChartsComponent } from './st-charts/st-charts.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +28,9 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     SettingComponent,
     RealTimeChartComponent,
     RealTimeItemComponent,
+    StChartsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ChartsModule, FormsModule, OwlDateTimeModule,
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ChartsModule, FormsModule, OwlDateTimeModule,
     OwlNativeDateTimeModule],
   providers: [SettingService],
   bootstrap: [AppComponent],
