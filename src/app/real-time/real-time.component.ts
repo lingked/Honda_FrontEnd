@@ -95,22 +95,24 @@ export class RealTimeComponent implements OnInit {
     // );
 
     this.NumOfPoints = this.settings.numOfPoints;
-    axios.get(`https://honda-api-demo.herokuapp.com/initialData`, {params: {num: this.NumOfPoints}
+    const url = `https://honda-api-demo.herokuapp.com/initialData`;
+    const url2 = 'http://localhost:8080/initialData';
+    axios.get(url, {params: {num: this.NumOfPoints}
     }, ).then(res=>{
       if(res.status==200){
         res.data.forEach(item=>{
           let t = item.timestamp.split(/[- :]/);
           this.lineChartLabels.push(t[3]+':'+t[4]+':'+parseInt(t[5]));
-          this.data.FLD.push(item.drip_FL);
-          this.data.FRD.push(item.drip_FR);
-          this.data.RLD.push(item.drip_RL);
-          this.data.RRD.push(item.drip_RR);
-          this.data.FSY.push(item.drip_FL-item.drip_FR);
-          this.data.RSY.push(item.drip_RL-item.drip_RR);
-          this.data.BF.push(item.b_FRONT);
-          this.data.BR.push(item.b_REAL);
-          this.data.RPLFR.push(item.b_FL-item.b_FR);
-          this.data.RPLRE.push(item.b_RL-item.b_RR);
+          this.data.FLD.push(+item.drip_FL.toFixed(2));
+          this.data.FRD.push(+item.drip_FR.toFixed(2));
+          this.data.RLD.push(+item.drip_RL.toFixed(2));
+          this.data.RRD.push(+item.drip_RR.toFixed(2));
+          this.data.FSY.push(+(item.drip_FL-item.drip_FR).toFixed(2));
+          this.data.RSY.push(+(item.drip_RL-item.drip_RR).toFixed(2));
+          this.data.BF.push(+item.b_FRONT.toFixed(2));
+          this.data.BR.push(+item.b_REAL.toFixed(2));
+          this.data.RPLFR.push(+(item.b_FL-item.b_FR).toFixed(2));
+          this.data.RPLRE.push(+(item.b_RL-item.b_RR).toFixed(2));
 
 
           if (item.drip_FL > this.settings.dripMax || item.drip_FL < this.settings.dripMin) {
@@ -196,6 +198,7 @@ export class RealTimeComponent implements OnInit {
 
         });
       }
+
     });
     // for (let i = 0; i < this.settings.numOfPoints; i++) {
     //   this.lineChartLabels.push(0);

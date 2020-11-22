@@ -95,15 +95,7 @@ export class ShortTermComponent implements OnInit {
     let sd = Date.parse(this.startDate);
     let ed = Date.parse(this.endDate);
 
-    axios.get(`http://localhost:8080`, {params: {startDate:sd, endDate:ed}
-  }, ).then(res=>{
-    if(res.status==200){
-      this.data = res.data;
-      this.router.navigate(['stCharts', {data:JSON.stringify(this.data)}]);
-    } else{
-      return;
-    }
-  });
+    this.router.navigate(['stCharts', {startDate:sd, endDate:ed}]);
 
   //   let NavigationExtras:NavigationExtras = {
   //     queryParams:{
