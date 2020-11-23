@@ -34,11 +34,10 @@ export class StChartsComponent implements OnInit {
 
     const url = `https://honda-api-demo.herokuapp.com`;
     const url2 = 'http://localhost:8080';
-    axios.get(url, {params: {startDate:startDate, endDate:endDate}
+    axios.get(url2, {params: {startDate:startDate, endDate:endDate}
   }, ).then(res=>{
     if(res.status==200){
       res.data.forEach(item => {
-        console.log(item);
         this.labels.push(item.timestamp);
 
         this.data.FLD.push(+item.drip_FL.toFixed(2));

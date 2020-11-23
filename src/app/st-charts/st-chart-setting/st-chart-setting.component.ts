@@ -8,7 +8,7 @@ import { SettingService } from './../../service/SettingService';
 
 import {CsvItem} from '../../model/CsvItem';
 
-class Checks { FLD: boolean; FRD: boolean; RLD: boolean; RRD: boolean; FSY:boolean; RSY:boolean; BF:boolean; BR:boolean; RPLFR:boolean; RPLRE:boolean; table:boolean };
+class Checks { FLD: boolean; FRD: boolean; RLD: boolean; RRD: boolean; FSY:boolean; RSY:boolean; BF:boolean; BR:boolean; RPLFR:boolean; RPLRE:boolean; csvTable:boolean };
 
 @Component({
   selector: 'app-st-chart-setting',
@@ -642,11 +642,6 @@ export class StChartSettingComponent implements OnInit {
       [{data:this.data.RPLFR, label:'ROOF PICK FRONT'}],
       [{data:this.data.RPLRE, label:'ROOF PICK REAR'}],
     ]
-
-    if(this.checks.table){
-
-    }
-
   }
 
   downloadCSV() {
