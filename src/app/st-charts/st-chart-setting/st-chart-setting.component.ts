@@ -1,7 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+
 import { SettingService } from './../../service/SettingService';
+
+
+import {CsvItem} from '../../model/CsvItem';
+
+class Checks { FLD: boolean; FRD: boolean; RLD: boolean; RRD: boolean; FSY:boolean; RSY:boolean; BF:boolean; BR:boolean; RPLFR:boolean; RPLRE:boolean; table:boolean };
 
 @Component({
   selector: 'app-st-chart-setting',
@@ -14,7 +21,8 @@ export class StChartSettingComponent implements OnInit {
   @Input() labels:[]
   @Input() totals:{}
   @Input() num:number
-  @Input() checks:{}
+  @Input() checks:Checks;
+  @Input() checkArr:[]
 
   public settings:any;
 
@@ -23,6 +31,10 @@ export class StChartSettingComponent implements OnInit {
   public lineChartType = 'line';
 
   public lineChartLegend = true;
+
+  public csvData = [];
+
+  public csvItem:CsvItem;
 
   public colors = [
     {
@@ -49,6 +61,10 @@ export class StChartSettingComponent implements OnInit {
   public RPAnnotations:{};
 
   public lineChartOptionList:[{},{},{},{},{},{},{},{},{},{}];
+
+  // csv
+  status: any[];
+  formula:string = "Formula 1";
 
   constructor(public settingService: SettingService) {
     this.settings = settingService.settings;
@@ -615,18 +631,42 @@ export class StChartSettingComponent implements OnInit {
     ]
 
     this.itemData = [
-      [{data:this.data.FLD, label:'FRONT LEFT'}],
-      [{data:this.data.FRD, label:'FRONT RIGHT'}],
-      [{data:this.data.RLD, label:'REAR LEFT'}],
-      [{data:this.data.RRD, label:'REAR RIGHT'}],
+      [{data:this.data.FLD, label:'DRIP FRONT LEFT'}],
+      [{data:this.data.FRD, label:'DRIP FRONT RIGHT'}],
+      [{data:this.data.RLD, label:'DRIP REAR LEFT'}],
+      [{data:this.data.RRD, label:'DRIP REAR RIGHT'}],
       [{data:this.data.FSY, label:'FRONT SYMMETRY'}],
       [{data:this.data.RSY, label:'REAR SYMMETRY'}],
-      [{data:this.data.BF, label:'FRONT'}],
-      [{data:this.data.BR, label:'REAR'}],
-      [{data:this.data.RPLFR, label:'FRONT'}],
-      [{data:this.data.RPLRE, label:'REAR'}],
+      [{data:this.data.BF, label:'BPITCH FRONT'}],
+      [{data:this.data.BR, label:'BPITCH REAR'}],
+      [{data:this.data.RPLFR, label:'ROOF PICK FRONT'}],
+      [{data:this.data.RPLRE, label:'ROOF PICK REAR'}],
     ]
 
+    if(this.checks.table){
+
+    }
+
+  }
+
+  downloadCSV() {
+
+    var data=[];
+
+    for(let i=0; i<this.num; i++){
+      data.push(new CsvItem(this.labels[i],this.data.FLD[i],this.data.FRD[i],this.data.RLD[i],this.data.RRD[i], this.data.FSY[i],this.data.RSY[i],this.data.BF[i],this.data.BR[i],this.data.RPLFR[i],this.data.RPLRE[i]))
+    }
+    var options = {
+      title: 'Selected data',
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      useBom: true,
+      headers: ['Timestamp', 'drip front left', 'drip front right', 'drip rear left', 'drip rear right', 'dirp symmetry front', 'drip symmetry rear', 'drip BPitch front', 'drip BPitch rear', 'roof pick front', 'roof pick rear']
+    };
+    new Angular2Csv(data, 'csv_' + new Date().toString(), options);
   }
 
 }

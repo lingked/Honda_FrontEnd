@@ -13,6 +13,8 @@ export class ShortTermComponent implements OnInit {
   public startDate:any;
   public endDate:any;
   public data=[];
+  public checks = { FLD: true, FRD: true, RLD: true, RRD: true, FSY:true, RSY:false, BF:false, BR:false, RPLFR:false, RPLRE:false, csvTable:false };
+  public checkArr=[false, false, false, false, false, false, false, false, false, false, false];
 
   public Info:any={
 
@@ -95,7 +97,16 @@ export class ShortTermComponent implements OnInit {
     let sd = Date.parse(this.startDate);
     let ed = Date.parse(this.endDate);
 
-    this.router.navigate(['stCharts', {startDate:sd, endDate:ed}]);
+    let i = 0;
+
+    Object.keys(this.checks).forEach(key=>{
+      if(i<this.checkArr.length){
+        this.checks[key] = this.checkArr[i];
+        i++;
+      }
+    });
+
+    this.router.navigate(['stCharts', {startDate:sd, endDate:ed, checks: JSON.stringify(this.checks)}]);
 
   //   let NavigationExtras:NavigationExtras = {
   //     queryParams:{

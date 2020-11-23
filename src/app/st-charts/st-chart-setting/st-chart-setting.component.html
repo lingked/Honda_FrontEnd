@@ -1,16 +1,53 @@
-
 <div class="board_container">
   <div class='board' *ngFor="let data of itemData; index as i">
-    <canvas
-          baseChart
-          [datasets]="itemData[i]"
-          [labels]="labels"
-          [options]="lineChartOptionList[i]"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [colors]="colors"
-          [plugins]="lineChartPlugins"
-        >
-    </canvas>
+    <div class='board-item' *ngIf="checkArr[i]">
+      <canvas
+            baseChart
+            [datasets]="itemData[i]"
+            [labels]="labels"
+            [options]="lineChartOptionList[i]"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [colors]="colors"
+            [plugins]="lineChartPlugins"
+          >
+      </canvas>
+    </div>
+  </div>
+</div>
+
+<div class="csv-container" *ngIf="this.checks.table">
+  <div class="btn">
+    <button (click)="downloadCSV()">Download CSV File</button>
+  </div>
+  <div class="csv-data">
+    <table>
+      <tr>
+        <th>timestamp</th>
+        <th>drip_front_left</th>
+        <th>drip_front_right</th>
+        <th>drip_rear_left</th>
+        <th>drip_rear_right</th>
+        <th>dirp_symmetry_front</th>
+        <th>drip_symmetry_rear</th>
+        <th>drip_BPitch_front</th>
+        <th>drip_BPitch_rear</th>
+        <th>roof_pick_front</th>
+        <th>roof_pick_rear</th>
+      </tr>
+      <tr *ngFor="let item of labels; index as i">
+        <td>{{item}}</td>
+        <td>{{data.FLD[i]}}</td>
+        <td>{{data.FRD[i]}}</td>
+        <td>{{data.RLD[i]}}</td>
+        <td>{{data.RRD[i]}}</td>
+        <td>{{data.FSY[i]}}</td>
+        <td>{{data.RSY[i]}}</td>
+        <td>{{data.BF[i]}}</td>
+        <td>{{data.BR[i]}}</td>
+        <td>{{data.RPLFR[i]}}</td>
+        <td>{{data.RPLRE[i]}}</td>
+      </tr>
+    </table>
   </div>
 </div>

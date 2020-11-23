@@ -11,7 +11,8 @@ import axios from 'axios';
 })
 export class StChartsComponent implements OnInit {
 
-  public checks = { FLD: false, FRD: false, RLD: false, RRD: false, FSY:false, RSY:false, BF:false, BR:false, RPLFR:false, RPLRE:false };
+  public checks = { FLD: false, FRD: false, RLD: false, RRD: false, FSY:false, RSY:false, BF:false, BR:false, RPLFR:false, RPLRE:false, table:false };
+  public checksArr = []
   public labels = []
   public data = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
   public totals = {FLD:0, FRD: 0, RLD: 0, RRD: 0, FSY:0, RSY:0, BF:0, BR:0, RPLFR:0, RPLRE:0};
@@ -26,9 +27,14 @@ export class StChartsComponent implements OnInit {
   ngOnInit(): void {
     const startDate = this.router.snapshot.paramMap.get('startDate');
     const endDate = this.router.snapshot.paramMap.get('endDate');
+    this.checks = JSON.parse(this.router.snapshot.paramMap.get('checks'));
+    Object.keys(this.checks).forEach(key =>{
+      this.checksArr.push(this.checks[key]);
+    });
 
-
-    axios.get(`http://localhost:8080`, {params: {startDate:startDate, endDate:endDate}
+    const url = `https://honda-api-demo.herokuapp.com`;
+    const url2 = 'http://localhost:8080';
+    axios.get(`url`, {params: {startDate:startDate, endDate:endDate}
   }, ).then(res=>{
     if(res.status==200){
       res.data.forEach(item => {
