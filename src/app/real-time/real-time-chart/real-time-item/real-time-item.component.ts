@@ -32,7 +32,7 @@ export class RealTimeItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.lineChartOptions);
+    // console.log(this.settingsData)
   }
 
   onChangePieState() {

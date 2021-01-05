@@ -1,6 +1,9 @@
 import { SettingService } from './../service/SettingService';
 import { Component, OnInit } from '@angular/core';
+import { formatDate } from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
+
+import { ChartDataSets, ChartOptions } from 'chart.js';
 
 import axios from 'axios';
 
@@ -15,10 +18,14 @@ export class StChartsComponent implements OnInit {
   public checksArr = []
   public labels = []
   public data = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
+  public csvData = { FLD: [], FRD: [], RLD: [], RRD: [], FSY:[], RSY:[], BF:[], BR:[], RPLFR:[], RPLRE:[] };
   public totals = {FLD:0, FRD: 0, RLD: 0, RRD: 0, FSY:0, RSY:0, BF:0, BR:0, RPLFR:0, RPLRE:0};
   public num=0;
   public lineChartOptions:{};
   public settings:any;
+
+  public symData: ChartDataSets[];
+  public testData:[{x:any, y:any}];
 
   constructor(public router:ActivatedRoute, public settingService: SettingService) {
     this.settings = settingService.settings;
@@ -37,6 +44,7 @@ export class StChartsComponent implements OnInit {
     axios.get(url2, {params: {startDate:startDate, endDate:endDate}
   }, ).then(res=>{
     if(res.status==200){
+  
       res.data.forEach(item => {
         this.labels.push(item.timestamp);
 
@@ -44,12 +52,36 @@ export class StChartsComponent implements OnInit {
         this.data.FRD.push(+item.drip_FR.toFixed(2));
         this.data.RLD.push(+item.drip_RL.toFixed(2));
         this.data.RRD.push(+item.drip_RR.toFixed(2));
-        this.data.FSY.push(+(item.drip_FL-item.drip_FR).toFixed(2));
-        this.data.RSY.push(+(item.drip_RL-item.drip_RR).toFixed(2));
+        this.data.FSY.push({
+          x: +(item.drip_FL-item.drip_FR).toFixed(2), 
+          y: new Date(
+          Date.parse(item.timestamp))});
+        this.csvData.FSY.push(+(item.drip_FL-item.drip_FR).toFixed(2));
+        this.data.RSY.push({
+          x:+(item.drip_RL-item.drip_RR).toFixed(2),
+          y: new Date(
+            Date.parse(item.timestamp)
+          )
+        });
+
+        this.csvData.RSY.push(+(item.drip_FL-item.drip_FR).toFixed(2));
         this.data.BF.push(+item.b_FRONT.toFixed(2));
         this.data.BR.push(+item.b_REAL.toFixed(2));
-        this.data.RPLFR.push(+(item.b_FL-item.b_FR).toFixed(2));
-        this.data.RPLRE.push(+(item.b_RL-item.b_RR).toFixed(2));
+        this.data.RPLFR.push({
+          x: +(item.b_FL-item.b_FR).toFixed(2),
+          y: new Date(
+            Date.parse(item.timestamp)
+          )
+        });
+        this.csvData.RPLFR.push(+(item.drip_FL-item.drip_FR).toFixed(2));
+        this.data.RPLRE.push({
+          x:+(item.b_RL-item.b_RR).toFixed(2),
+          y: new Date(
+            Date.parse(item.timestamp)
+          )
+        });
+
+        this.csvData.RPLRE.push(+(item.drip_FL-item.drip_FR).toFixed(2));
 
         this.totals.FLD+=(+item.drip_FL.toFixed(2));
         this.totals.FRD+=(+item.drip_FR.toFixed(2));
@@ -64,6 +96,12 @@ export class StChartsComponent implements OnInit {
 
         this.num++;
       });
+      this.csvData.FLD = this.data.FLD;
+      this.csvData.FRD = this.data.FRD;
+      this.csvData.RLD = this.data.RLD;
+      this.csvData.RRD = this.data.RRD;
+      this.csvData.BF = this.data.BF;
+      this.csvData.BR = this.data.BR;
     } else{
       return;
     }

@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, Input } from '@angular/core';
 import { Settings } from '../../model/Settings';
 import { Setting } from '../../model/Settings';
@@ -60,7 +59,8 @@ export class RealTimeChartComponent implements OnInit {
 
   public settings: Settings;
 
-  public settingsData:[Setting,Setting,Setting,Setting];
+  public settingsData:[Setting, Setting, Setting, Setting, Setting, 
+    Setting, Setting, Setting, Setting, Setting];
 
 
   constructor(settingService: SettingService,) {
@@ -654,28 +654,80 @@ export class RealTimeChartComponent implements OnInit {
         Min: this.settings.dripMin,
         greenPercent: this.settings.greenPercentDrip,
         redPercent: this.settings.redPercentDrip,
-        pointsNum: this.settings.numOfPoints
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_FR_L
       },
       {
         Max: this.settings.dripSymMax,
         Min: this.settings.dripSymMin,
         greenPercent: this.settings.greenPercentDripSym,
         redPercent: this.settings.redPercentDripSym,
-        pointsNum: this.settings.numOfPoints
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_FR_R
       },
       {
         Max: this.settings.BPMax,
         Min: this.settings.BPMin,
         greenPercent: this.settings.greenPercentBP,
         redPercent: this.settings.redPercentBP,
-        pointsNum: this.settings.numOfPoints
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_RE_L
       },
       {
         Max: this.settings.RPMax,
         Min: this.settings.RPMin,
         greenPercent: this.settings.greenPercentRP,
         redPercent: this.settings.redPercentRP,
-        pointsNum: this.settings.numOfPoints
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_RE_R
+      },
+      {
+        Max: this.settings.dripSymMax,
+        Min: this.settings.dripSymMin,
+        greenPercent: this.settings.greenPercentDripSym,
+        redPercent: this.settings.redPercentDripSym,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_DripL_Sym,
+      },
+      {
+        Max: this.settings.dripSymMax,
+        Min: this.settings.dripSymMin,
+        greenPercent: this.settings.greenPercentDripSym,
+        redPercent: this.settings.redPercentDripSym,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_DripR_Sym,
+      },
+      {
+        Max: this.settings.BPMax,
+        Min: this.settings.BPMin,
+        greenPercent: this.settings.greenPercentBP,
+        redPercent: this.settings.redPercentBP,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_FR_BP,
+      },
+      {
+        Max: this.settings.BPMax,
+        Min: this.settings.BPMin,
+        greenPercent: this.settings.greenPercentBP,
+        redPercent: this.settings.redPercentBP,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_RE_BP,
+      },
+      {
+        Max: this.settings.RPMax,
+        Min: this.settings.RPMin,
+        greenPercent: this.settings.greenPercentRP,
+        redPercent: this.settings.redPercentRP,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_FR_RP,
+      },
+      {
+        Max: this.settings.RPMax,
+        Min: this.settings.RPMin,
+        greenPercent: this.settings.greenPercentRP,
+        redPercent: this.settings.redPercentRP,
+        pointsNum: this.settings.numOfPoints,
+        nominal: this.settings.nominal_RE_RP,
       }
     ]
 

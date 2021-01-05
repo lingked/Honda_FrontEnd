@@ -20,6 +20,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { StChartsComponent } from './st-charts/st-charts.component';
 import { StChartSettingComponent } from './st-charts/st-chart-setting/st-chart-setting.component';
 import { ShortTermItemComponent } from './st-charts/st-chart-setting/short-term-item/short-term-item.component';
+import { WebSocketAPI } from './service/WebSocketAPI';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { ShortTermItemComponent } from './st-charts/st-chart-setting/short-term-
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ChartsModule, FormsModule, OwlDateTimeModule,
     OwlNativeDateTimeModule],
-  providers: [SettingService],
+  providers: [SettingService, WebSocketAPI],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

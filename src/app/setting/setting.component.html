@@ -305,8 +305,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.dripMin"
-          [value]="settings.dripMin"
+          [(ngModel)]="settings.RPMin"
+          [value]="settings.RPMin"
           name="points number"
         /> mm
       </div>
@@ -316,8 +316,8 @@
           step="1"
           min="10"
           max="40"
-          [(ngModel)]="settings.dripMax"
-          [value]="settings.dripMax"
+          [(ngModel)]="settings.RPMax"
+          [value]="settings.RPMax"
           name="points number"
         /> mm
       </div>
@@ -344,5 +344,17 @@
         /> %
       </div>
     </div>
+  </div>
+
+  <div class="period-container">
+    <div class="periodData">
+      Storage Period (days) <input type="number" step = "1" [(ngModel)]="settings.period" [value]="settings.period" name="period" />
+    </div>
+  </div>
+
+  <div class="btn-container">
+    <button class="btn-container__btn" (click)="update()">
+      Update
+    </button>
   </div>
 </div>

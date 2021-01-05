@@ -73,3 +73,37 @@
     margin-bottom: 5px;
   }
 }
+
+.period-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__periodData {
+    height: 1rem;
+  }
+}
+
+.btn-container {
+  margin: 1.5rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__btn {
+    width: 7rem;
+    height: 2rem;
+    transition: all .3s ease;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(42, 102, 42, .6);
+    }
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+}

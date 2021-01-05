@@ -1,18 +1,16 @@
 <div class="board_container">
   <div class='board' *ngFor="let data of itemData; index as i">
-    <div class='board-item' *ngIf="checkArr[i]">
       <canvas
             baseChart
             [datasets]="itemData[i]"
             [labels]="labels"
             [options]="lineChartOptionList[i]"
             [legend]="lineChartLegend"
-            [chartType]="lineChartType"
+            [chartType]="lineChartTypes[i]"
             [colors]="colors"
             [plugins]="lineChartPlugins"
           >
       </canvas>
-    </div>
   </div>
 </div>
 
@@ -37,16 +35,16 @@
       </tr>
       <tr *ngFor="let item of labels; index as i">
         <td>{{item}}</td>
-        <td>{{data.FLD[i]}}</td>
-        <td>{{data.FRD[i]}}</td>
-        <td>{{data.RLD[i]}}</td>
-        <td>{{data.RRD[i]}}</td>
-        <td>{{data.FSY[i]}}</td>
-        <td>{{data.RSY[i]}}</td>
-        <td>{{data.BF[i]}}</td>
-        <td>{{data.BR[i]}}</td>
-        <td>{{data.RPLFR[i]}}</td>
-        <td>{{data.RPLRE[i]}}</td>
+        <td>{{csvSrcData.FLD[i]}}</td>
+        <td>{{csvSrcData.FRD[i]}}</td>
+        <td>{{csvSrcData.RLD[i]}}</td>
+        <td>{{csvSrcData.RRD[i]}}</td>
+        <td>{{csvSrcData.FSY[i]}}</td>
+        <td>{{csvSrcData.RSY[i]}}</td>
+        <td>{{csvSrcData.BF[i]}}</td>
+        <td>{{csvSrcData.BR[i]}}</td>
+        <td>{{csvSrcData.RPLFR[i]}}</td>
+        <td>{{csvSrcData.RPLRE[i]}}</td>
       </tr>
     </table>
   </div>

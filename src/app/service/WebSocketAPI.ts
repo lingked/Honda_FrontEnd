@@ -4,17 +4,18 @@ import { Subject } from 'rxjs';
 import { AppComponent } from '../app.component';
 
 export class WebSocketAPI {
-  // WebSocketEndPoint: string = 'http://localhost:8080/realTimeAPI';
-  // WebSocketEndPoint: string = 'http://3.22.61.171:8080/realTimeAPI';
-  WebSocketEndPoint: string =
-    'https://honda-api-demo.herokuapp.com/realTimeAPI';
-  topic: string = '/dataListener';
-  stompClient: any;
-  appComponent: AppComponent;
-  message = new Subject<any>();
-  constructor(appComponent: AppComponent) {
-    this.appComponent = appComponent;
-  }
+  WebSocketEndPoint: string = 'http://localhost:8080/realTimeAPI';
+  // public WebSocketEndPoint: string = 'http://3.22.61.171:8080/realTimeAPI';
+  // WebSocketEndPoint: string =
+  //   'https://honda-api-demo.herokuapp.com/realTimeAPI';
+  public topic: string = '/dataListener';
+  public stompClient: any;
+  public appComponent: AppComponent;
+  public message = new Subject<any>();
+  // constructor(appComponent: AppComponent) {
+  //   this.appComponent = appComponent;
+  // }
+  constructor() {}
 
   _connect() {
     console.log('Initialize WebSocket Connection');

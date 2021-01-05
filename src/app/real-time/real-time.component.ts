@@ -9,6 +9,7 @@ import axios from 'axios';
 import { WebSocketAPI } from '../service/WebSocketAPI';
 
 import { Settings } from '../model/Settings';
+import { basicLineChartOption } from '../config/chartConfig';
 
 @Component({
   selector: 'app-real-time',
@@ -87,9 +88,9 @@ export class RealTimeComponent implements OnInit {
 
   public settings: Settings;
 
-  constructor(settingService: SettingService, private router: Router) {
+  constructor(settingService: SettingService, webSocketApi: WebSocketAPI, private router: Router) {
     this.settings = settingService.settings;
-
+    this.webSocketAPI = webSocketApi;
     // console.log(
     //   Math.ceil((this.settings.dripMax - this.settings.dripMax) / 0.1)
     // );
@@ -97,7 +98,7 @@ export class RealTimeComponent implements OnInit {
     this.NumOfPoints = this.settings.numOfPoints;
     const url = `https://honda-api-demo.herokuapp.com/initialData`;
     const url2 = 'http://localhost:8080/initialData';
-    axios.get(url, {params: {num: this.NumOfPoints}
+    axios.get(url2, {params: {num: this.NumOfPoints}
     }, ).then(res=>{
       if(res.status==200){
         res.data.forEach(item=>{
@@ -197,22 +198,14 @@ export class RealTimeComponent implements OnInit {
         }
 
         });
-      }
+        const keys = Object.keys(this.pieData);
 
+        for(let i=0; i<keys.length; i++){
+          this.pieData[keys[i]] = [this.NumOfPoints-this.errors[i]-this.divs[i], this.divs[i], this.errors[i]];
+        }
+      }
     });
-    // for (let i = 0; i < this.settings.numOfPoints; i++) {
-    //   this.lineChartLabels.push(0);
-    //   this.data.FLD.push(0);
-    //   this.data.FRD.push(0);
-    //   this.data.RLD.push(0);
-    //   this.data.RRD.push(0);
-    //   this.data.FSY.push(0);
-    //   this.data.RSY.push(0);
-    //   this.data.BF.push(0);
-    //   this.data.BR.push(0);
-    //   this.data.RPLFR.push(0);
-    //   this.data.RPLRE.push(0);
-    // }
+
 
     Object.keys(this.pieData).forEach((key)=>{
       this.pieData[key]=[this.settings.numOfPoints,0,0]
@@ -226,59 +219,60 @@ export class RealTimeComponent implements OnInit {
   }
 
   onChangeState = () => {
-    console.log('This is operated!');
+    // console.log('This is operated!');
     this.checked = !this.checked;
   };
 
   onChangeFLD_er = () => {
-    console.log('This is operated!');
+    // console.log('This is operated!');
     this.FLD_checked_er = !this.FLD_checked_er;
   };
 
   onChangeFLD_st = () => {
-    console.log('This is operated!');
+    // console.log('This is operated!');
     this.FLD_checked_st = !this.FLD_checked_st;
   };
 
   ngOnInit(): void {
-    this.lineChartOptions = {
-      backgoundColor: ['dark'],
-      responsive: true,
-      animation: false,
-      elements: {
-        line: {
-          tension: 0,
-          fill: false,
-          borderWidth: 1,
-          borderColor: 'red',
-          backgroundColor: 'red'
-        },
-      },
-      scales: {
-        xAxes: [
-          {
-            display: true,
-            ticks: {
-              type: 'time',
-              time: {
-                unit: 'minute',
-              },
-            },
-          },
-        ],
-        yAxes: [
-          {
-            display: true,
-            ticks: {
-              steps: 10,
-              stepValue: 0.1,
-              max: this.settings.dripMax,
-              min: this.settings.dripMin,
-            },
-          },
-        ],
-      },
-    };
+    this.lineChartOptions = new basicLineChartOption();
+    // {
+    //   backgoundColor: ['dark'],
+    //   responsive: true,
+    //   animation: false,
+    //   elements: {
+    //     line: {
+    //       tension: 0,
+    //       fill: false,
+    //       borderWidth: 1,
+    //       borderColor: 'red',
+    //       backgroundColor: 'red'
+    //     },
+    //   },
+    //   scales: {
+    //     xAxes: [
+    //       {
+    //         display: true,
+    //         ticks: {
+    //           type: 'time',
+    //           time: {
+    //             unit: 'minute',
+    //           },
+    //         },
+    //       },
+    //     ],
+    //     yAxes: [
+    //       {
+    //         display: true,
+    //         ticks: {
+    //           steps: 10,
+    //           stepValue: 0.1,
+    //           max: this.settings.dripMax,
+    //           min: this.settings.dripMin,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // };
 
     this.lineChartOptionsV = {
       backgoundColor: ['dark'],
@@ -325,8 +319,8 @@ export class RealTimeComponent implements OnInit {
       },
     };
 
-    this.webSocketAPI = new WebSocketAPI(new AppComponent());
-    this.webSocketAPI._connect();
+    // this.webSocketAPI = new WebSocketAPI(new AppComponent());
+    // this.webSocketAPI._connect();
     this.settingSubscription = this.subscription = this.webSocketAPI.message.subscribe(
       (data: any) => {
         this.data.FLD.push(data.drip_FL);
@@ -529,7 +523,7 @@ export class RealTimeComponent implements OnInit {
           this.lineChartLabels.shift();
         }
 
-        this.FrontLeftDrip = [{ data: this.data.FLD, label: 'FRONT LEFT' }];
+        // this.FrontLeftDrip = [{ data: this.data.FLD, label: 'FRONT LEFT' }];
         // this.FrontRightDrip = [{ data: this.data.FRD, label: 'FRONT RIGHT' }];
         // this.RearLeftDrip = [{ data: this.data.RLD, label: 'REAR LEFT' }];
         // this.RearRightDrip = [{ data: this.data.RRD, label: 'REAR RIGHT' }];
@@ -543,9 +537,6 @@ export class RealTimeComponent implements OnInit {
         for(let i=0; i<keys.length; i++){
           this.pieData[keys[i]] = [this.NumOfPoints-this.errors[i]-this.divs[i], this.divs[i], this.errors[i]];
         }
-
-        // console.log(this.pieData[keys[5]]);
-        // console.log(this.pieData[keys[6]]);
 
       }
     );

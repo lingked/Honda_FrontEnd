@@ -10,9 +10,20 @@ import { Settings } from '../model/Settings';
 })
 export class SettingComponent implements OnInit {
   public settings: Settings;
+  public settingService: SettingService;
   constructor(settingService: SettingService) {
+    this.settingService = settingService;
     this.settings = settingService.settings;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.settingService.getSettings().then( data => 
+      this.settings = data
+    );
+    // this.settings = this.settingService.settings;
+  }
+
+  public update(){
+    this.settingService.updateSettings(this.settings);
+  }
 }

@@ -3,6 +3,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class Settings {
   //General parameters
   public numOfPoints: number;
+  public period: Number;
   // Drip parameters
   public samplePointsDrip: number;
   public dripMin: number;
@@ -17,6 +18,8 @@ export class Settings {
   public redPercentDrip: number;
 
   // Drip symmetry parameters
+  public nominal_DripL_Sym: number;
+  public nominal_DripR_Sym: number;
   public samplePointsSym: number;
   public dripSymMin: number;
   public dripSymMax: number;
@@ -50,6 +53,7 @@ export class Settings {
     // this.dripUpperBound = -0.3;
     // this.dripLowerBound = 0.3;
     this.numOfPoints = 30;
+    this.period = 14;
 
     // this.dripSymMin = -1.0;
     // this.dripSymMax = 1.0;
@@ -66,6 +70,8 @@ export class Settings {
     this.redPercentDrip=20;
 
     // drip symmetry
+    this.nominal_DripL_Sym = 0;
+    this.nominal_DripR_Sym = 0;
     this.dripSymMin = -1;
     this.dripSymMax = 1;
     this.dripSymNorFR=0.03;
@@ -100,4 +106,5 @@ export class Setting {
   greenPercent: Number;
   redPercent: Number;
   pointsNum: Number;
+  nominal: Number;
 }
