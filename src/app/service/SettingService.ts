@@ -9,6 +9,7 @@ export class SettingService {
   constructor() {
     this.UpdateSettingUrl = Urls.UpdateSettingUrl;
     this.settings = new Settings();
+    this.getSettings();
   }
 
   public async getSettings() {

@@ -31,7 +31,7 @@ export class RealTimeData {
     b_RR: 0,
   };
   constructor(settingService: SettingService) {
-    this.numOfPoints = settingService.getSettings().numOfPoints;
+    // this.numOfPoints = settingService.getSettings().numOfPoints;
 
     // axios.get(`localhost:8080/initialData`, {params: {num: this.numOfPoints}}).then(res=>{
     //   if(res.status==200){
@@ -77,5 +77,41 @@ export class RealTimeData {
 
   public getErrs() {
     return this.errs;
+  }
+}
+
+export class StData {
+  FLD: Number[];
+  FRD: Number[];
+  RLD: Number[];
+  RRD: Number[];
+  FSY: Array<StDataVertical>;
+  RSY: Array<StDataVertical>;
+  BF: Number[];
+  BR: Number[];
+  RPLFR: Array<StDataVertical>;
+  RPLRE: Array<StDataVertical>;
+
+  constructor(){
+    this.FLD = [];
+    this.FRD = [];
+    this.RLD = [];
+    this.RRD = [];
+    this.FSY = [];
+    this.RSY = [];
+    this.BF = [];
+    this.BR = [];
+    this.RPLFR = [];
+    this.RPLRE = [];
+  }
+};
+
+export class StDataVertical {
+  x: number;
+  y: Date;
+
+  constructor(data: number, date: Date) {
+    this.x = data;
+    this.y = date;
   }
 }

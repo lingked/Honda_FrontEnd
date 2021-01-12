@@ -105,7 +105,7 @@ export class ShortTermComponent implements OnInit {
         i++;
       }
     });
-
+    console.log(sd + " - " + ed);
     this.router.navigate(['stCharts', {startDate:sd, endDate:ed, checks: JSON.stringify(this.checks)}]);
 
   //   let NavigationExtras:NavigationExtras = {

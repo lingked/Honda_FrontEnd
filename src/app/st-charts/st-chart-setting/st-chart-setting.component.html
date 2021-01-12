@@ -1,9 +1,9 @@
 <div class="board_container">
   <div class='board' *ngFor="let data of itemData; index as i">
-      <canvas
+      <canvas *ngIf="delayStatus"
             baseChart
             [datasets]="itemData[i]"
-            [labels]="labels"
+            [labels]="transformedLabels"
             [options]="lineChartOptionList[i]"
             [legend]="lineChartLegend"
             [chartType]="lineChartTypes[i]"

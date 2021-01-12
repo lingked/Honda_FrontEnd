@@ -8,7 +8,7 @@ import { RealTimeComponent } from './real-time/real-time.component';
 import { ShortTermComponent } from './short-term/short-term.component';
 
 const routes: Routes = [
-  { path: '', component: RealTimeComponent},
+  { path: '', component: SettingComponent},
   { path: 'settings', component: SettingComponent },
   { path: 'real-time', component: RealTimeComponent },
   { path: 'short-term', component: ShortTermComponent },

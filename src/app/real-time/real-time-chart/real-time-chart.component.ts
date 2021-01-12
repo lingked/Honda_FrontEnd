@@ -10,11 +10,12 @@ import { SettingService } from './../../service/SettingService';
   styleUrls: ['./real-time-chart.component.scss'],
 })
 export class RealTimeChartComponent implements OnInit {
-  @Input() data:any;
+  @Input() data: any;
+  @Input() transformedData: any;
   @Input() labels: [];
   @Input() lineChartOptions: {};
   @Input() lineChartOptionsV: {};
-  @Input() lineChartType: String;
+  @Input() lineChartType: [];
   @Input() colors: [];
   @Input() lineChartLegend: [];
 
@@ -25,173 +26,216 @@ export class RealTimeChartComponent implements OnInit {
 
   @Input() checked: boolean;
 
-  public dripData: [[{}],[{}],[{}],[{}]];
+  public dripData: [[{}], [{}], [{}], [{}]];
 
-  public lineChartOptionsDrip:{};
-  public lineChartOptionsDripList:[{}, {}, {}, {}];
+  public lineChartOptionsDrip: {};
+  public lineChartOptionsDripList: [{}, {}, {}, {}];
 
-  public lineChartOptionsDS:{};
-  public lineChartSymDripList:[{}, {}];
+  public lineChartOptionsDS: {};
+  public lineChartSymDripList: [{}, {}];
 
   public lineChartOptionsBP: {};
-  public lineChartBPList: [{},{}];
+  public lineChartBPList: [{}, {}];
 
   public lineChartOptionsRP: {};
-  public lineChartRPList: [{},{}];
-
+  public lineChartRPList: [{}, {}];
 
   public dripSymData: [[{}], [{}]];
 
-  public bPitch:[[{}], [{}]];
+  public bPitch: [[{}], [{}]];
 
-  public RPL:[[{}], [{}]];
+  public RPL: [[{}], [{}]];
 
   public keys: string[];
 
   public dripAnnotations;
+  public DSAnnotations;
+  public RPAnnotations;
 
   public labelMFL: Array<any> = [
     {
-      data:[],
-      label:[]
-    }
-  ]
+      data: [],
+      label: [],
+    },
+  ];
 
   public settings: Settings;
 
-  public settingsData:[Setting, Setting, Setting, Setting, Setting, 
-    Setting, Setting, Setting, Setting, Setting];
+  public settingsData: [
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting,
+    Setting
+  ];
 
-
-  constructor(settingService: SettingService,) {
+  constructor(settingService: SettingService) {
     this.settings = settingService.settings;
   }
 
   ngOnInit(): void {
-    // console.log(this.data);
     this.dripData = [
       [{ data: this.data.FLD, label: 'FRONT LEFT' }],
       [{ data: this.data.FRD, label: 'FRONT RIGHT' }],
       [{ data: this.data.RLD, label: 'REAR LEFT' }],
-      [{ data: this.data.RRD, label: 'REAR RIGHT' }]
-    ]
+      [{ data: this.data.RRD, label: 'REAR RIGHT' }],
+    ];
 
-
+    // console.log(this.labels);
     this.dripSymData = [
-      [{
-        data: this.data.FSY, label: 'FRONT SYMMETRY'
-      }],
-      [{
-        data: this.data.RSY, label: 'REAR SYMMETRY'
-      }]
-    ]
+      [
+        // data: this.data.FSY, label: 'FRONT SYMMETRY'
+        {
+          data: this.transformedData.FSY,
+          showLine: true,
+          fill: false,
+          tension: 0,
+          label: 'FRONT SYMMETRY',
+        },
+      ],
+      [
+        {
+          data: this.transformedData.RSY,
+          showLine: true,
+          fill: false,
+          tension: 0,
+          label: 'REAR SYMMETRY',
+        },
+      ],
+    ];
 
     this.bPitch = [
-      [{
-        data: this.data.BF, label: 'FRONT'
-      }],[{
-        data: this.data.BR, label: 'REAR'
-      }]
-    ]
+      [
+        {
+          data: this.data.BF,
+          label: 'FRONT',
+        },
+      ],
+      [
+        {
+          data: this.data.BR,
+          label: 'REAR',
+        },
+      ],
+    ];
 
     this.RPL = [
-      [{
-        data: this.data.RPLFR, label: 'FRONT'
-      }],[{
-        data: this.data.RPLRE, label: 'REAR'
-      }]
-    ]
+      [
+        {
+          data: this.transformedData.RPLFR,
+          showLine: true,
+          fill: false,
+          tension: 0,
+          label: 'ROOF PICK FRONT',
+        },
+      ],
+      [
+        {
+          data: this.transformedData.RPLRE,
+          showLine: true,
+          fill: false,
+          tension: 0,
+          label: 'ROOF PICK REAR',
+        },
+      ],
+    ];
 
     this.keys = Object.keys(this.pieData);
 
     // settings
 
-    this.dripAnnotations = [{
-      type: 'line',
-      mode: 'horizontal',
-      scaleID: 'y-axis-0',
-      value: this.settings.nominal_FR_L,
-      borderColor: 'black',
-      borderWidth: .5,
-      label:{
-        enabled: false,
-        content: 'test label'
-      }
-    },
-    {
-      type: 'line',
-      mode: 'horizontal',
-      scaleID: 'y-axis-1',
-      value: this.settings.dripMin,
-      borderColor: 'black',
-      borderWidth: .3,
-      label:{
-        enabled: false,
-        content: 'test label'
-      }
-    },
+    this.dripAnnotations = [
+      {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: this.settings.nominal_FR_L,
+        borderColor: 'black',
+        borderWidth: 0.5,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
+      {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-1',
+        value: this.settings.dripMin,
+        borderColor: 'black',
+        borderWidth: 0.3,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
 
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-0',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.dripMax,
-      yMax: this.settings.dripMax*(1+this.settings.redPercentDrip/100),
-      borderColor: "rgba(255, 0, 0, 0.7)",
-      borderWidth: 0,
-      backgroundColor: "rgba(255, 0, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-1',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.dripMin*(1+this.settings.redPercentDrip/100),
-      yMax: this.settings.dripMin,
-      borderColor: "rgba(255, 0, 0, 0.7)",
-      borderWidth: 0,
-      backgroundColor: "rgba(255, 0, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-2',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.dripMin*(this.settings.greenPercentDrip/100),
-      yMax: this.settings.dripMax*(this.settings.greenPercentDrip/100),
-      borderColor: "rgba(0, 128, 0, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(0, 128, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-3',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.dripMax*(this.settings.greenPercentDrip/100),
-      yMax: this.settings.dripMax,
-      borderColor: "rgba(235, 174, 52, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(235, 174, 52, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-4',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.dripMin,
-      yMax: this.settings.dripMin*(this.settings.greenPercentDrip/100),
-      borderColor: "rgba(235, 174, 52, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(235, 174, 52, 0.3)",
-    },
-  ]
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-0',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        yMin: this.settings.dripMax,
+        yMax: this.settings.dripMax * (1 + this.settings.redPercentDrip / 100),
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-1',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        yMin: this.settings.dripMin * (1 + this.settings.redPercentDrip / 100),
+        yMax: this.settings.dripMin,
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-2',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        yMin: this.settings.dripMin * (this.settings.greenPercentDrip / 100),
+        yMax: this.settings.dripMax * (this.settings.greenPercentDrip / 100),
+        borderColor: 'rgba(0, 128, 0, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(0, 128, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-3',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        yMin: this.settings.dripMax * (this.settings.greenPercentDrip / 100),
+        yMax: this.settings.dripMax,
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-4',
+        xScaleID: 'x-axis-0',
+        yScaleID: 'y-axis-0',
+        yMin: this.settings.dripMin,
+        yMax: this.settings.dripMin * (this.settings.greenPercentDrip / 100),
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+    ];
 
     this.lineChartOptionsDrip = {
       ...this.lineChartOptions,
@@ -213,52 +257,59 @@ export class RealTimeChartComponent implements OnInit {
             ticks: {
               steps: 10,
               stepValue: 0.1,
-              max: this.settings.dripMax*(1+this.settings.redPercentDrip/100),
-              min: this.settings.dripMin*(1+this.settings.redPercentDrip/100),
+              max:
+                this.settings.dripMax *
+                (1 + this.settings.redPercentDrip / 100),
+              min:
+                this.settings.dripMin *
+                (1 + this.settings.redPercentDrip / 100),
             },
           },
         ],
       },
       annotation: {
-        annotations:this.dripAnnotations
-      }
+        annotations: this.dripAnnotations,
+      },
     };
 
     this.lineChartOptionsDripList = [
-      {...this.lineChartOptionsDrip,
-        annotation:{
-          annotations:[
+      {
+        ...this.lineChartOptionsDrip,
+        annotation: {
+          annotations: [
             ...this.dripAnnotations,
             {
               type: 'line',
               mode: 'horizontal',
               scaleID: 'y-axis-3',
-              value: .2,
+              value: 0.2,
               borderColor: 'black',
-              borderWidth: .7,
-              label:{
+              borderWidth: 0.7,
+              label: {
                 enabled: true,
-                content: 'Nominal'
-          }}]
-        }
+                content: 'Nominal',
+              },
+            },
+          ],
+        },
       },
-      {...this.lineChartOptionsDrip,},
-      {...this.lineChartOptionsDrip,},
-      {...this.lineChartOptionsDrip,}
-    ]
+      { ...this.lineChartOptionsDrip },
+      { ...this.lineChartOptionsDrip },
+      { ...this.lineChartOptionsDrip },
+    ];
 
     this.lineChartOptionsDS = {
-        backgoundColor: ['dark'],
-        responsive: true,
-        animation: false,
-        elements: {
-          line: {
-            tension: 0,
-            fill: false,
-            borderWidth: 1,
-            color: 'blue',
-          },
+      backgoundColor: ['dark'],
+      responsive: true,
+      animation: false,
+      elements: {
+        line: {
+          tension: 0,
+          fill: false,
+          borderWidth: 1,
+          color: 'blue',
         },
+      },
       scales: {
         xAxes: [
           {
@@ -277,103 +328,274 @@ export class RealTimeChartComponent implements OnInit {
             ticks: {
               steps: 10,
               stepValue: 0.1,
-              max: this.settings.dripSymMax*(1+this.settings.redPercentDripSym/100),
-              min: this.settings.dripSymMin*(1+this.settings.redPercentDripSym/100),
+              max:
+                this.settings.dripSymMax *
+                (1 + this.settings.redPercentDripSym / 100),
+              min:
+                this.settings.dripSymMin *
+                (1 + this.settings.redPercentDripSym / 100),
             },
           },
         ],
       },
       annotation: {
-        annotations:
-        [{
-          type: 'line',
-          mode: 'horizontal',
-          scaleID: 'y-axis-0',
-          value: this.settings.dripSymNorFR,
-          borderColor: 'black',
-          borderWidth: .5,
-          label:{
-            enabled: false,
-            content: 'test label'
-          }
-        },
-        {
-          type: 'line',
-          mode: 'horizontal',
-          scaleID: 'y-axis-1',
-          value: this.settings.dripSymMin,
-          borderColor: 'black',
-          borderWidth: .3,
-          label:{
-            enabled: false,
-            content: 'test label'
-          }
-        },
+        annotations: [
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: this.settings.dripSymNorFR,
+            borderColor: 'black',
+            borderWidth: 0.5,
+            label: {
+              enabled: false,
+              content: 'test label',
+            },
+          },
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-1',
+            value: this.settings.dripSymMin,
+            borderColor: 'black',
+            borderWidth: 0.3,
+            label: {
+              enabled: false,
+              content: 'test label',
+            },
+          },
 
-        {
-          type: 'box',
-          drawTime: "beforeDatasetsDraw",
-          id: 'y-box-0',
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          yMin: this.settings.dripSymMax,
-          yMax: this.settings.dripSymMax*(1+this.settings.redPercentDripSym/100),
-          borderColor: "rgba(255, 0, 0, 0.7)",
-          borderWidth: 0,
-          backgroundColor: "rgba(255, 0, 0, 0.3)",
-        },
-        {
-          type: 'box',
-          drawTime: "beforeDatasetsDraw",
-          id: 'y-box-1',
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          yMin: this.settings.dripSymMin*(1+this.settings.redPercentDripSym/100),
-          yMax: this.settings.dripSymMin,
-          borderColor: "rgba(255, 0, 0, 0.7)",
-          borderWidth: 0,
-          backgroundColor: "rgba(255, 0, 0, 0.3)",
-        },
-        {
-          type: 'box',
-          drawTime: "beforeDatasetsDraw",
-          id: 'y-box-2',
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          yMin: this.settings.dripSymMin*(this.settings.greenPercentDripSym/100),
-          yMax: this.settings.dripSymMax*(this.settings.greenPercentDripSym/100),
-          borderColor: "rgba(0, 128, 0, 0.5)",
-          borderWidth: 0,
-          backgroundColor: "rgba(0, 128, 0, 0.3)",
-        },
-        {
-          type: 'box',
-          drawTime: "beforeDatasetsDraw",
-          id: 'y-box-3',
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          yMin: this.settings.dripSymMax*(this.settings.greenPercentDripSym/100),
-          yMax: this.settings.dripSymMax,
-          borderColor: "rgba(235, 174, 52, 0.5)",
-          borderWidth: 0,
-          backgroundColor: "rgba(235, 174, 52, 0.3)",
-        },
-        {
-          type: 'box',
-          drawTime: "beforeDatasetsDraw",
-          id: 'y-box-4',
-          xScaleID: "x-axis-0",
-          yScaleID: "y-axis-0",
-          yMin: this.settings.dripSymMin,
-          yMax: this.settings.dripSymMin*(this.settings.greenPercentDripSym/100),
-          borderColor: "rgba(235, 174, 52, 0.5)",
-          borderWidth: 0,
-          backgroundColor: "rgba(235, 174, 52, 0.3)",
-        },
-      ]
-      }
-    }
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-0',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.dripSymMax,
+            yMax:
+              this.settings.dripSymMax *
+              (1 + this.settings.redPercentDripSym / 100),
+            borderColor: 'rgba(255, 0, 0, 0.7)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-1',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin:
+              this.settings.dripSymMin *
+              (1 + this.settings.redPercentDripSym / 100),
+            yMax: this.settings.dripSymMin,
+            borderColor: 'rgba(255, 0, 0, 0.7)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-2',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin:
+              this.settings.dripSymMin *
+              (this.settings.greenPercentDripSym / 100),
+            yMax:
+              this.settings.dripSymMax *
+              (this.settings.greenPercentDripSym / 100),
+            borderColor: 'rgba(0, 128, 0, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(0, 128, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-3',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin:
+              this.settings.dripSymMax *
+              (this.settings.greenPercentDripSym / 100),
+            yMax: this.settings.dripSymMax,
+            borderColor: 'rgba(235, 174, 52, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(235, 174, 52, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-4',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.dripSymMin,
+            yMax:
+              this.settings.dripSymMin *
+              (this.settings.greenPercentDripSym / 100),
+            borderColor: 'rgba(235, 174, 52, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(235, 174, 52, 0.3)',
+          },
+        ],
+      },
+    };
 
+    this.DSAnnotations = [
+      {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'y-axis-0',
+        value: this.settings.dripSymNorFR,
+        borderColor: 'black',
+        borderWidth: 0.5,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
+      {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'y-axis-0',
+        value: this.settings.dripSymMin,
+        borderColor: 'black',
+        borderWidth: 0.3,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
+
+      // type: "box",
+      //     drawTime: "beforeDatasetsDraw",
+      //     id: "a-box-1-ver",
+      //     xScaleID: "x-axis-1",
+      //     yScaleID: "y-axis-1",
+      //     xMin: -0.3,
+      //     xMax: 0.3,
+
+      //     borderColor: "green",
+      //     borderWidth: 2,
+      //     backgroundColor: "green",
+
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-0',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.dripSymMax,
+        xMax:
+          this.settings.dripSymMax *
+          (1 + this.settings.redPercentDripSym / 100),
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-1',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin:
+          this.settings.dripSymMin *
+          (1 + this.settings.redPercentDripSym / 100),
+        xMax: this.settings.dripSymMin,
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-2',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin:
+          this.settings.dripSymMin * (this.settings.greenPercentDripSym / 100),
+        xMax:
+          this.settings.dripSymMax * (this.settings.greenPercentDripSym / 100),
+        borderColor: 'rgba(0, 128, 0, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(0, 128, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-3',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin:
+          this.settings.dripSymMax * (this.settings.greenPercentDripSym / 100),
+        xMax: this.settings.dripSymMax,
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-4',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.dripSymMin,
+        xMax:
+          this.settings.dripSymMin * (this.settings.greenPercentDripSym / 100),
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+    ];
+
+    this.lineChartOptionsDS = {
+      ...this.lineChartOptions,
+      backgoundColor: ['dark'],
+      responsive: true,
+      animation: false,
+      elements: {
+        line: {
+          tension: 0,
+          fill: false,
+          borderWidth: 1,
+          color: 'blue',
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            type: 'time',
+            time: {
+              unit: 'minute',
+              displayFormats: {
+                minute: 'lll',
+              },
+            },
+            display: true,
+            distribution: 'series',
+          },
+        ],
+        xAxes: [
+          {
+            display: true,
+            ticks: {
+              steps: 10,
+              stepValue: 0.1,
+              max:
+                this.settings.dripSymMax *
+                (1 + this.settings.redPercentDripSym / 100),
+              min:
+                this.settings.dripSymMin *
+                (1 + this.settings.redPercentDripSym / 100),
+            },
+          },
+        ],
+      },
+      annotation: {
+        annotations: this.DSAnnotations,
+      },
+    };
 
     this.lineChartOptionsBP = {
       backgoundColor: ['dark'],
@@ -387,266 +609,394 @@ export class RealTimeChartComponent implements OnInit {
           color: 'blue',
         },
       },
-    scales: {
-      xAxes: [
-        {
-          display: true,
-          ticks: {
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            ticks: {
+              type: 'time',
+              time: {
+                unit: 'minute',
+              },
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: true,
+            ticks: {
+              steps: 10,
+              stepValue: 0.1,
+              max: this.settings.BPMax * (1 + this.settings.redPercentBP / 100),
+              min: this.settings.BPMin * (1 + this.settings.redPercentBP / 100),
+            },
+          },
+        ],
+      },
+      annotation: {
+        annotations: [
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: this.settings.nominal_FR_BP,
+            borderColor: 'black',
+            borderWidth: 0.5,
+            label: {
+              enabled: false,
+              content: 'test label',
+            },
+          },
+          {
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-1',
+            value: this.settings.BPMin,
+            borderColor: 'black',
+            borderWidth: 0.3,
+            label: {
+              enabled: false,
+              content: 'test label',
+            },
+          },
+
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-0',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.BPMax,
+            yMax:
+              this.settings.BPMax * (1 + this.settings.redPercentDripSym / 100),
+            borderColor: 'rgba(255, 0, 0, 0.7)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-1',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.BPMin * (1 + this.settings.redPercentBP / 100),
+            yMax: this.settings.BPMin,
+            borderColor: 'rgba(255, 0, 0, 0.7)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-2',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.BPMin * (this.settings.greenPercentBP / 100),
+            yMax: this.settings.BPMax * (this.settings.greenPercentBP / 100),
+            borderColor: 'rgba(0, 128, 0, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(0, 128, 0, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-3',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.BPMax * (this.settings.greenPercentBP / 100),
+            yMax: this.settings.BPMax,
+            borderColor: 'rgba(235, 174, 52, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(235, 174, 52, 0.3)',
+          },
+          {
+            type: 'box',
+            drawTime: 'beforeDatasetsDraw',
+            id: 'y-box-4',
+            xScaleID: 'x-axis-0',
+            yScaleID: 'y-axis-0',
+            yMin: this.settings.BPMin,
+            yMax: this.settings.BPMin * (this.settings.greenPercentBP / 100),
+            borderColor: 'rgba(235, 174, 52, 0.5)',
+            borderWidth: 0,
+            backgroundColor: 'rgba(235, 174, 52, 0.3)',
+          },
+        ],
+      },
+    };
+
+    this.RPAnnotations = [
+      {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'y-axis-0',
+        value: this.settings.nominal_FR_RP,
+        borderColor: 'black',
+        borderWidth: 0.5,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
+      {
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'y-axis-1',
+        value: this.settings.RPMin,
+        borderColor: 'black',
+        borderWidth: 0.3,
+        label: {
+          enabled: false,
+          content: 'test label',
+        },
+      },
+
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-0',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.RPMax,
+        xMax: this.settings.RPMax * (1 + this.settings.redPercentRP / 100),
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-1',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.RPMin * (1 + this.settings.redPercentRP / 100),
+        xMax: this.settings.RPMin,
+        borderColor: 'rgba(255, 0, 0, 0.7)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-2',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.RPMin * (this.settings.greenPercentRP / 100),
+        xMax: this.settings.RPMax * (this.settings.greenPercentRP / 100),
+        borderColor: 'rgba(0, 128, 0, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(0, 128, 0, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-3',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.RPMax * (this.settings.greenPercentRP / 100),
+        xMax: this.settings.RPMax,
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+      {
+        type: 'box',
+        drawTime: 'beforeDatasetsDraw',
+        id: 'y-box-4',
+        xScaleID: 'x-axis-1',
+        yScaleID: 'y-axis-1',
+        xMin: this.settings.RPMin,
+        xMax: this.settings.RPMin * (this.settings.greenPercentRP / 100),
+        borderColor: 'rgba(235, 174, 52, 0.5)',
+        borderWidth: 0,
+        backgroundColor: 'rgba(235, 174, 52, 0.3)',
+      },
+    ];
+
+    //   this.lineChartOptionsRP = {
+    //   backgoundColor: ['dark'],
+    //   responsive: true,
+    //   animation: false,
+    //   elements: {
+    //     line: {
+    //       tension: 0,
+    //       fill: false,
+    //       borderWidth: 1,
+    //       color: 'blue',
+    //     },
+    //   },
+    // scales: {
+    //   xAxes: [
+    //     {
+    //       display: true,
+    //       ticks: {
+    //         type: 'time',
+    //         time: {
+    //           unit: 'minute',
+    //         },
+    //       },
+    //     },
+    //   ],
+    //   yAxes: [
+    //     {
+    //       display: true,
+    //       ticks: {
+    //         steps: 10,
+    //         stepValue: 0.1,
+    //         max: this.settings.RPMax*(1+this.settings.redPercentRP/100),
+    //         min: this.settings.RPMin*(1+this.settings.redPercentRP/100),
+    //       },
+    //     },
+    //   ],
+    // },
+    // annotation: {
+    //   annotations:
+    //   [{
+    //     type: 'line',
+    //     mode: 'horizontal',
+    //     scaleID: 'y-axis-0',
+    //     value: this.settings.nominal_FR_RP,
+    //     borderColor: 'black',
+    //     borderWidth: .5,
+    //     label:{
+    //       enabled: false,
+    //       content: 'test label'
+    //     }
+    //   },
+    //   {
+    //     type: 'line',
+    //     mode: 'horizontal',
+    //     scaleID: 'y-axis-1',
+    //     value: this.settings.RPMin,
+    //     borderColor: 'black',
+    //     borderWidth: .3,
+    //     label:{
+    //       enabled: false,
+    //       content: 'test label'
+    //     }
+    //   },
+
+    //   {
+    //     type: 'box',
+    //     drawTime: "beforeDatasetsDraw",
+    //     id: 'y-box-0',
+    //     xScaleID: "x-axis-0",
+    //     yScaleID: "y-axis-0",
+    //     yMin: this.settings.RPMax,
+    //     yMax: this.settings.RPMax*(1+this.settings.redPercentRP/100),
+    //     borderColor: "rgba(255, 0, 0, 0.7)",
+    //     borderWidth: 0,
+    //     backgroundColor: "rgba(255, 0, 0, 0.3)",
+    //   },
+    //   {
+    //     type: 'box',
+    //     drawTime: "beforeDatasetsDraw",
+    //     id: 'y-box-1',
+    //     xScaleID: "x-axis-0",
+    //     yScaleID: "y-axis-0",
+    //     yMin: this.settings.RPMin*(1+this.settings.redPercentRP/100),
+    //     yMax: this.settings.RPMin,
+    //     borderColor: "rgba(255, 0, 0, 0.7)",
+    //     borderWidth: 0,
+    //     backgroundColor: "rgba(255, 0, 0, 0.3)",
+    //   },
+    //   {
+    //     type: 'box',
+    //     drawTime: "beforeDatasetsDraw",
+    //     id: 'y-box-2',
+    //     xScaleID: "x-axis-0",
+    //     yScaleID: "y-axis-0",
+    //     yMin: this.settings.RPMin*(this.settings.greenPercentRP/100),
+    //     yMax: this.settings.RPMax*(this.settings.greenPercentRP/100),
+    //     borderColor: "rgba(0, 128, 0, 0.5)",
+    //     borderWidth: 0,
+    //     backgroundColor: "rgba(0, 128, 0, 0.3)",
+    //   },
+    //   {
+    //     type: 'box',
+    //     drawTime: "beforeDatasetsDraw",
+    //     id: 'y-box-3',
+    //     xScaleID: "x-axis-0",
+    //     yScaleID: "y-axis-0",
+    //     yMin: this.settings.RPMax*(this.settings.greenPercentRP/100),
+    //     yMax: this.settings.RPMax,
+    //     borderColor: "rgba(235, 174, 52, 0.5)",
+    //     borderWidth: 0,
+    //     backgroundColor: "rgba(235, 174, 52, 0.3)",
+    //   },
+    //   {
+    //     type: 'box',
+    //     drawTime: "beforeDatasetsDraw",
+    //     id: 'y-box-4',
+    //     xScaleID: "x-axis-0",
+    //     yScaleID: "y-axis-0",
+    //     yMin: this.settings.RPMin,
+    //     yMax: this.settings.RPMin*(this.settings.greenPercentRP/100),
+    //     borderColor: "rgba(235, 174, 52, 0.5)",
+    //     borderWidth: 0,
+    //     backgroundColor: "rgba(235, 174, 52, 0.3)",
+    //   },
+    // ]
+    // }
+    // }
+
+    this.lineChartOptionsRP = {
+      backgoundColor: ['dark'],
+      responsive: true,
+      animation: false,
+      elements: {
+        line: {
+          tension: 0,
+          fill: false,
+          borderWidth: 1,
+          color: 'blue',
+        },
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            ticks: {
+              steps: 10,
+              stepValue: 0.1,
+              max: this.settings.RPMax * (1 + this.settings.redPercentRP / 100),
+              min: this.settings.RPMin * (1 + this.settings.redPercentRP / 100),
+            },
+          },
+        ],
+        yAxes: [
+          {
             type: 'time',
             time: {
               unit: 'minute',
+              displayFormats: {
+                minute: 'llll',
+              },
             },
+            display: true,
+            distribution: 'series',
           },
-        },
-      ],
-      yAxes: [
-        {
-          display: true,
-          ticks: {
-            steps: 10,
-            stepValue: 0.1,
-            max: this.settings.BPMax*(1+this.settings.redPercentBP/100),
-            min: this.settings.BPMin*(1+this.settings.redPercentBP/100),
-          },
-        },
-      ],
-    },
-    annotation: {
-      annotations:
-      [{
-        type: 'line',
-        mode: 'horizontal',
-        scaleID: 'y-axis-0',
-        value: this.settings.nominal_FR_BP,
-        borderColor: 'black',
-        borderWidth: .5,
-        label:{
-          enabled: false,
-          content: 'test label'
-        }
+        ],
       },
-      {
-        type: 'line',
-        mode: 'horizontal',
-        scaleID: 'y-axis-1',
-        value: this.settings.BPMin,
-        borderColor: 'black',
-        borderWidth: .3,
-        label:{
-          enabled: false,
-          content: 'test label'
-        }
+      annotation: {
+        annotations: this.RPAnnotations,
       },
-
-      {
-        type: 'box',
-        drawTime: "beforeDatasetsDraw",
-        id: 'y-box-0',
-        xScaleID: "x-axis-0",
-        yScaleID: "y-axis-0",
-        yMin: this.settings.BPMax,
-        yMax: this.settings.BPMax*(1+this.settings.redPercentDripSym/100),
-        borderColor: "rgba(255, 0, 0, 0.7)",
-        borderWidth: 0,
-        backgroundColor: "rgba(255, 0, 0, 0.3)",
-      },
-      {
-        type: 'box',
-        drawTime: "beforeDatasetsDraw",
-        id: 'y-box-1',
-        xScaleID: "x-axis-0",
-        yScaleID: "y-axis-0",
-        yMin: this.settings.BPMin*(1+this.settings.redPercentBP/100),
-        yMax: this.settings.BPMin,
-        borderColor: "rgba(255, 0, 0, 0.7)",
-        borderWidth: 0,
-        backgroundColor: "rgba(255, 0, 0, 0.3)",
-      },
-      {
-        type: 'box',
-        drawTime: "beforeDatasetsDraw",
-        id: 'y-box-2',
-        xScaleID: "x-axis-0",
-        yScaleID: "y-axis-0",
-        yMin: this.settings.BPMin*(this.settings.greenPercentBP/100),
-        yMax: this.settings.BPMax*(this.settings.greenPercentBP/100),
-        borderColor: "rgba(0, 128, 0, 0.5)",
-        borderWidth: 0,
-        backgroundColor: "rgba(0, 128, 0, 0.3)",
-      },
-      {
-        type: 'box',
-        drawTime: "beforeDatasetsDraw",
-        id: 'y-box-3',
-        xScaleID: "x-axis-0",
-        yScaleID: "y-axis-0",
-        yMin: this.settings.BPMax*(this.settings.greenPercentBP/100),
-        yMax: this.settings.BPMax,
-        borderColor: "rgba(235, 174, 52, 0.5)",
-        borderWidth: 0,
-        backgroundColor: "rgba(235, 174, 52, 0.3)",
-      },
-      {
-        type: 'box',
-        drawTime: "beforeDatasetsDraw",
-        id: 'y-box-4',
-        xScaleID: "x-axis-0",
-        yScaleID: "y-axis-0",
-        yMin: this.settings.BPMin,
-        yMax: this.settings.BPMin*(this.settings.greenPercentBP/100),
-        borderColor: "rgba(235, 174, 52, 0.5)",
-        borderWidth: 0,
-        backgroundColor: "rgba(235, 174, 52, 0.3)",
-      },
-    ]
-    }
-  }
-
-    this.lineChartOptionsRP = {
-    backgoundColor: ['dark'],
-    responsive: true,
-    animation: false,
-    elements: {
-      line: {
-        tension: 0,
-        fill: false,
-        borderWidth: 1,
-        color: 'blue',
-      },
-    },
-  scales: {
-    xAxes: [
-      {
-        display: true,
-        ticks: {
-          type: 'time',
-          time: {
-            unit: 'minute',
-          },
-        },
-      },
-    ],
-    yAxes: [
-      {
-        display: true,
-        ticks: {
-          steps: 10,
-          stepValue: 0.1,
-          max: this.settings.RPMax*(1+this.settings.redPercentRP/100),
-          min: this.settings.RPMin*(1+this.settings.redPercentRP/100),
-        },
-      },
-    ],
-  },
-  annotation: {
-    annotations:
-    [{
-      type: 'line',
-      mode: 'horizontal',
-      scaleID: 'y-axis-0',
-      value: this.settings.nominal_FR_RP,
-      borderColor: 'black',
-      borderWidth: .5,
-      label:{
-        enabled: false,
-        content: 'test label'
-      }
-    },
-    {
-      type: 'line',
-      mode: 'horizontal',
-      scaleID: 'y-axis-1',
-      value: this.settings.RPMin,
-      borderColor: 'black',
-      borderWidth: .3,
-      label:{
-        enabled: false,
-        content: 'test label'
-      }
-    },
-
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-0',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.RPMax,
-      yMax: this.settings.RPMax*(1+this.settings.redPercentRP/100),
-      borderColor: "rgba(255, 0, 0, 0.7)",
-      borderWidth: 0,
-      backgroundColor: "rgba(255, 0, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-1',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.RPMin*(1+this.settings.redPercentRP/100),
-      yMax: this.settings.RPMin,
-      borderColor: "rgba(255, 0, 0, 0.7)",
-      borderWidth: 0,
-      backgroundColor: "rgba(255, 0, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-2',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.RPMin*(this.settings.greenPercentRP/100),
-      yMax: this.settings.RPMax*(this.settings.greenPercentRP/100),
-      borderColor: "rgba(0, 128, 0, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(0, 128, 0, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-3',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.RPMax*(this.settings.greenPercentRP/100),
-      yMax: this.settings.RPMax,
-      borderColor: "rgba(235, 174, 52, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(235, 174, 52, 0.3)",
-    },
-    {
-      type: 'box',
-      drawTime: "beforeDatasetsDraw",
-      id: 'y-box-4',
-      xScaleID: "x-axis-0",
-      yScaleID: "y-axis-0",
-      yMin: this.settings.RPMin,
-      yMax: this.settings.RPMin*(this.settings.greenPercentRP/100),
-      borderColor: "rgba(235, 174, 52, 0.5)",
-      borderWidth: 0,
-      backgroundColor: "rgba(235, 174, 52, 0.3)",
-    },
-  ]
-  }
-  }
-
-
-
-
+    };
 
     this.lineChartSymDripList = [
-      {...this.lineChartOptionsDS},
-      {...this.lineChartOptionsDS}
-    ]
+      { ...this.lineChartOptionsDS },
+      { ...this.lineChartOptionsDS },
+    ];
 
     this.lineChartBPList = [
-      {...this.lineChartOptionsBP},
-      {...this.lineChartOptionsBP}
-    ]
+      { ...this.lineChartOptionsBP },
+      { ...this.lineChartOptionsBP },
+    ];
 
     this.lineChartRPList = [
-      {...this.lineChartOptionsRP},
-      {...this.lineChartOptionsRP}
-    ]
+      { ...this.lineChartOptionsRP },
+      { ...this.lineChartOptionsRP },
+    ];
 
     this.settingsData = [
       {
@@ -655,7 +1005,7 @@ export class RealTimeChartComponent implements OnInit {
         greenPercent: this.settings.greenPercentDrip,
         redPercent: this.settings.redPercentDrip,
         pointsNum: this.settings.numOfPoints,
-        nominal: this.settings.nominal_FR_L
+        nominal: this.settings.nominal_FR_L,
       },
       {
         Max: this.settings.dripSymMax,
@@ -663,7 +1013,7 @@ export class RealTimeChartComponent implements OnInit {
         greenPercent: this.settings.greenPercentDripSym,
         redPercent: this.settings.redPercentDripSym,
         pointsNum: this.settings.numOfPoints,
-        nominal: this.settings.nominal_FR_R
+        nominal: this.settings.nominal_FR_R,
       },
       {
         Max: this.settings.BPMax,
@@ -671,7 +1021,7 @@ export class RealTimeChartComponent implements OnInit {
         greenPercent: this.settings.greenPercentBP,
         redPercent: this.settings.redPercentBP,
         pointsNum: this.settings.numOfPoints,
-        nominal: this.settings.nominal_RE_L
+        nominal: this.settings.nominal_RE_L,
       },
       {
         Max: this.settings.RPMax,
@@ -679,7 +1029,7 @@ export class RealTimeChartComponent implements OnInit {
         greenPercent: this.settings.greenPercentRP,
         redPercent: this.settings.redPercentRP,
         pointsNum: this.settings.numOfPoints,
-        nominal: this.settings.nominal_RE_R
+        nominal: this.settings.nominal_RE_R,
       },
       {
         Max: this.settings.dripSymMax,
@@ -728,8 +1078,8 @@ export class RealTimeChartComponent implements OnInit {
         redPercent: this.settings.redPercentRP,
         pointsNum: this.settings.numOfPoints,
         nominal: this.settings.nominal_RE_RP,
-      }
-    ]
+      },
+    ];
 
     // this.lineChartBPList = this.lineChartSymDripList;
 

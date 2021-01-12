@@ -19,7 +19,7 @@ import { RealTimeItemComponent } from './real-time/real-time-chart/real-time-ite
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { StChartsComponent } from './st-charts/st-charts.component';
 import { StChartSettingComponent } from './st-charts/st-chart-setting/st-chart-setting.component';
-import { ShortTermItemComponent } from './st-charts/st-chart-setting/short-term-item/short-term-item.component';
+// import { ShortTermItemComponent } from './st-charts/st-chart-setting/short-term-item/short-term-item.component';
 import { WebSocketAPI } from './service/WebSocketAPI';
 
 @NgModule({
@@ -33,7 +33,6 @@ import { WebSocketAPI } from './service/WebSocketAPI';
     RealTimeItemComponent,
     StChartsComponent,
     StChartSettingComponent,
-    ShortTermItemComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ChartsModule, FormsModule, OwlDateTimeModule,
     OwlNativeDateTimeModule],
